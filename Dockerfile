@@ -20,7 +20,7 @@ FROM ${IMAGE_GO_BUILDER} as go_builder
 ENV REFRESHED_AT=2023-08-01
 LABEL Name="senzing/load-builder" \
       Maintainer="support@senzing.com" \
-      Version="0.0.5"
+      Version="0.0.1"
 
 # Build arguments.
 
@@ -61,7 +61,7 @@ FROM ${IMAGE_FINAL} as final
 ENV REFRESHED_AT=2023-08-01
 LABEL Name="senzing/load" \
       Maintainer="support@senzing.com" \
-      Version="0.0.5"
+      Version="0.0.1"
 
 # Copy files from prior stage.
 
