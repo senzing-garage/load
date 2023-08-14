@@ -6,11 +6,11 @@ import (
 	"context"
 	"os"
 
+	"github.com/senzing/load/examplepackage"
 	"github.com/senzing/senzing-tools/cmdhelper"
 	"github.com/senzing/senzing-tools/envar"
 	"github.com/senzing/senzing-tools/help"
 	"github.com/senzing/senzing-tools/option"
-	"github.com/senzing/load/examplepackage"
 	"github.com/spf13/cobra"
 )
 
