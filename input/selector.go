@@ -65,41 +65,27 @@ func parseURL(urlString string) *url.URL {
 }
 
 // ----------------------------------------------------------------------------
-func Read(ctx context.Context, inputURL, engineConfigJson string, engineLogLevel, numberOfWorkers, visibilityPeriodInSeconds int, logLevel string, jsonOutput bool) bool {
+func Read(ctx context.Context, inputURL, engineConfigJson string, engineLogLevel, numberOfWorkers, visibilityPeriodInSeconds int, logLevel string, jsonOutput bool) error {
 	// if len(logLevel) > 0 {
 	// 	msglog.SetLogLevelFromString(logLevel)
 	// }
 
 	u := parseURL(inputURL)
+	if len(inputURL) <= 0 {
+		return fmt.Errorf("Invalid URL: %s", inputURL)
+	}
 	switch u.Scheme {
 	case "amqp":
-		if len(inputURL) > 0 {
-			rabbitmq.Read(ctx, inputURL, engineConfigJson, logLevel, jsonOutput)
-		} else {
-			return false
-		}
+		rabbitmq.Read(ctx, inputURL, engineConfigJson, logLevel, jsonOutput)
 	case "sqs":
 		//allows for using a dummy URL with just a queue-name
 		// eg  sqs://lookup?queue-name=myqueue
-		if len(inputURL) > 0 {
-			sqs.Read(ctx, inputURL, engineConfigJson, engineLogLevel, numberOfWorkers, visibilityPeriodInSeconds, logLevel, jsonOutput)
-		} else {
-			return false
-		}
+		sqs.Read(ctx, inputURL, engineConfigJson, engineLogLevel, numberOfWorkers, visibilityPeriodInSeconds, logLevel, jsonOutput)
 	case "https":
 		//uses actual AWS SQS URL.  TODO: detect sqs/amazonaws url?
-		if len(inputURL) > 0 {
-			sqs.Read(ctx, inputURL, engineConfigJson, engineLogLevel, numberOfWorkers, visibilityPeriodInSeconds, logLevel, jsonOutput)
-		} else {
-			return false
-		}
+		sqs.Read(ctx, inputURL, engineConfigJson, engineLogLevel, numberOfWorkers, visibilityPeriodInSeconds, logLevel, jsonOutput)
 	default:
 		// msglog.Log(2001, u.Scheme, messagelogger.LevelWarn)
 	}
-	return true
+	return nil
 }
-
-// ----------------------------------------------------------------------------
-// func init() {
-// 	msglog, _ = messagelogger.NewSenzingLogger(productIdentifier, idMessages)
-// }

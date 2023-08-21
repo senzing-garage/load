@@ -7,7 +7,7 @@ import "context"
 // ----------------------------------------------------------------------------
 
 type Load interface {
-	Load(context.Context) bool
+	Load(context.Context) error
 }
 
 // mover is 6601:  https://github.com/Senzing/knowledge-base/blob/main/lists/senzing-product-ids.md

@@ -4,14 +4,15 @@ package cmd
 
 import (
 	"context"
+	"fmt"
 	"os"
+	"time"
 
-	"github.com/senzing/load/examplepackage"
-	"github.com/senzing/senzing-tools/cmdhelper"
-	"github.com/senzing/senzing-tools/envar"
-	"github.com/senzing/senzing-tools/help"
-	"github.com/senzing/senzing-tools/option"
+	"github.com/senzing/go-cmdhelping/cmdhelper"
+	"github.com/senzing/go-cmdhelping/option"
+	"github.com/senzing/load/load"
 	"github.com/spf13/cobra"
+	"github.com/spf13/viper"
 )
 
 const (
@@ -32,59 +33,18 @@ const (
 // Context variables
 // ----------------------------------------------------------------------------
 
-var ContextBools = []cmdhelper.ContextBool{
-	{
-		Default: cmdhelper.OsLookupEnvBool(envar.EnableAll, false),
-		Envar:   envar.EnableAll,
-		Help:    help.EnableAll,
-		Option:  option.EnableAll,
-	},
-}
-
-var ContextInts = []cmdhelper.ContextInt{
-	{
-		Default: cmdhelper.OsLookupEnvInt(envar.EngineLogLevel, 0),
-		Envar:   envar.EngineLogLevel,
-		Help:    help.EngineLogLevel,
-		Option:  option.EngineLogLevel,
-	},
-}
-
-var ContextStrings = []cmdhelper.ContextString{
-	{
-		Default: cmdhelper.OsLookupEnvString(envar.Configuration, ""),
-		Envar:   envar.Configuration,
-		Help:    help.Configuration,
-		Option:  option.Configuration,
-	},
-	{
-		Default: cmdhelper.OsLookupEnvString(envar.EngineConfigurationJson, ""),
-		Envar:   envar.EngineConfigurationJson,
-		Help:    help.EngineConfigurationJson,
-		Option:  option.EngineConfigurationJson,
-	},
-	{
-		Default: cmdhelper.OsLookupEnvString(envar.LogLevel, "INFO"),
-		Envar:   envar.LogLevel,
-		Help:    help.LogLevel,
-		Option:  option.LogLevel,
-	},
-}
-
-var ContextStringSlices = []cmdhelper.ContextStringSlice{
-	{
-		Default: []string{},
-		Envar:   envar.XtermAllowedHostnames,
-		Help:    help.XtermAllowedHostnames,
-		Option:  option.XtermAllowedHostnames,
-	},
-}
-
-var ContextVariables = &cmdhelper.ContextVariables{
-	Bools:        ContextBools,
-	Ints:         ContextInts,
-	Strings:      ContextStrings,
-	StringSlices: ContextStringSlices,
+var ContextVariables = []option.ContextVariable{
+	option.DelayInSeconds,
+	option.EngineModuleName.SetDefault(fmt.Sprintf("move-%d", time.Now().Unix())),
+	option.InputFileType,
+	option.InputURL,
+	option.JSONOutput,
+	option.LogLevel,
+	option.MonitoringPeriodInSeconds,
+	option.OutputURL,
+	option.RecordMax,
+	option.RecordMin,
+	option.RecordMonitor,
 }
 
 // ----------------------------------------------------------------------------
@@ -93,7 +53,7 @@ var ContextVariables = &cmdhelper.ContextVariables{
 
 // Since init() is always invoked, define command line parameters.
 func init() {
-	cmdhelper.Init(RootCmd, *ContextVariables)
+	cmdhelper.Init(RootCmd, ContextVariables)
 }
 
 // ----------------------------------------------------------------------------
@@ -111,18 +71,37 @@ func Execute() {
 
 // Used in construction of cobra.Command
 func PreRun(cobraCommand *cobra.Command, args []string) {
-	cmdhelper.PreRun(cobraCommand, args, Use, *ContextVariables)
+	cmdhelper.PreRun(cobraCommand, args, Use, ContextVariables)
 }
 
 // Used in construction of cobra.Command
 func RunE(_ *cobra.Command, _ []string) error {
-	var err error = nil
-	ctx := context.Background()
-	examplePackage := &examplepackage.ExamplePackageImpl{
-		Something: "Main says 'Hi!'",
+	jsonOutput := viper.GetBool(option.JSONOutput.Arg)
+	if !jsonOutput {
+		fmt.Println("Run with the following parameters:")
+		for _, key := range viper.AllKeys() {
+			fmt.Println("  - ", key, " = ", viper.Get(key))
+		}
 	}
-	err = examplePackage.SaySomething(ctx)
-	return err
+
+	if viper.GetInt(option.DelayInSeconds.Arg) > 0 {
+		if !jsonOutput {
+			fmt.Println(time.Now(), "Sleep for", viper.GetInt(option.DelayInSeconds.Arg), "seconds to let queues and databases settle down and come up.")
+		}
+		time.Sleep(time.Duration(viper.GetInt(option.DelayInSeconds.Arg)) * time.Second)
+	}
+
+	ctx := context.Background()
+
+	loader := &load.LoadImpl{
+		// FileType:                  viper.GetString(option.InputFileType.Arg),
+		InputURL:                  viper.GetString(option.InputURL.Arg),
+		JSONOutput:                viper.GetBool(option.JSONOutput.Arg),
+		LogLevel:                  viper.GetString(option.LogLevel.Arg),
+		MonitoringPeriodInSeconds: viper.GetInt(option.MonitoringPeriodInSeconds.Arg),
+		RecordMonitor:             viper.GetInt(option.RecordMonitor.Arg),
+	}
+	return loader.Load(ctx)
 }
 
 // Used in construction of cobra.Command

@@ -22,6 +22,8 @@ type LoadImpl struct {
 	JSONOutput                bool
 	LogLevel                  string
 	NumberOfWorkers           int
+	MonitoringPeriodInSeconds int
+	RecordMonitor             int
 	VisibilityPeriodInSeconds int
 }
 
@@ -32,7 +34,7 @@ var _ Load = (*LoadImpl)(nil)
 
 // ----------------------------------------------------------------------------
 
-func (l *LoadImpl) Load(ctx context.Context) bool {
+func (l *LoadImpl) Load(ctx context.Context) error {
 
 	logOSInfo()
 	logBuildInfo()
