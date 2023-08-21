@@ -6,19 +6,25 @@ import (
 	"context"
 	"os"
 
+	"github.com/senzing/load/examplepackage"
 	"github.com/senzing/senzing-tools/cmdhelper"
 	"github.com/senzing/senzing-tools/envar"
 	"github.com/senzing/senzing-tools/help"
 	"github.com/senzing/senzing-tools/option"
-	"github.com/senzing/load/examplepackage"
 	"github.com/spf13/cobra"
 )
 
 const (
-	Short string = "load short description"
+	Short string = "Load records into Senzing."
 	Use   string = "load"
 	Long  string = `
-load long description.
+	Welcome to load!
+	This tool will load records into Senzing. It validates the records conform to the Generic Entity Specification.
+
+	For example:
+
+	load --input-url "amqp://guest:guest@192.168.6.96:5672"
+	load --input-url "https://public-read-access.s3.amazonaws.com/TestDataSets/SenzingTruthSet/truth-set-3.0.0.jsonl"
     `
 )
 
