@@ -99,7 +99,9 @@ func RunE(_ *cobra.Command, _ []string) error {
 		JSONOutput:                viper.GetBool(option.JSONOutput.Arg),
 		LogLevel:                  viper.GetString(option.LogLevel.Arg),
 		MonitoringPeriodInSeconds: viper.GetInt(option.MonitoringPeriodInSeconds.Arg),
-		RecordMonitor:             viper.GetInt(option.RecordMonitor.Arg),
+		// RecordMax:                 viper.GetInt(option.RecordMax),
+		// RecordMin:                 viper.GetInt(option.RecordMin),
+		RecordMonitor: viper.GetInt(option.RecordMonitor.Arg),
 	}
 	return loader.Load(ctx)
 }

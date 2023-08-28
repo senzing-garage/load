@@ -23,6 +23,8 @@ type LoadImpl struct {
 	LogLevel                  string
 	NumberOfWorkers           int
 	MonitoringPeriodInSeconds int
+	// RecordMax                 int
+	// RecordMin                 int
 	RecordMonitor             int
 	VisibilityPeriodInSeconds int
 }
@@ -40,7 +42,7 @@ func (l *LoadImpl) Load(ctx context.Context) error {
 	logBuildInfo()
 	logStats()
 
-	ticker := time.NewTicker(1 * time.Minute)
+	ticker := time.NewTicker(l.MonitoringPeriodInSeconds * time.Second)
 	go func() {
 		for {
 			select {
