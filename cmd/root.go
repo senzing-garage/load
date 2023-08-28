@@ -35,7 +35,7 @@ const (
 
 var ContextVariables = []option.ContextVariable{
 	option.DelayInSeconds,
-	option.EngineModuleName.SetDefault(fmt.Sprintf("move-%d", time.Now().Unix())),
+	option.EngineModuleName.SetDefault(fmt.Sprintf("load-%d", time.Now().Unix())),
 	option.InputFileType,
 	option.InputURL,
 	option.JSONOutput,

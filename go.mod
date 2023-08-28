@@ -1,6 +1,8 @@
 module github.com/senzing/load
 
-go 1.20
+go 1.21
+
+toolchain go1.21.0
 
 require (
 	github.com/senzing/g2-sdk-go v0.6.8
