@@ -42,7 +42,7 @@ func (l *LoadImpl) Load(ctx context.Context) error {
 	logBuildInfo()
 	logStats()
 
-	ticker := time.NewTicker(l.MonitoringPeriodInSeconds * time.Second)
+	ticker := time.NewTicker(time.Duration(l.MonitoringPeriodInSeconds) * time.Second)
 	go func() {
 		for {
 			select {
