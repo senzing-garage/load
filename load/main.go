@@ -8,6 +8,7 @@ import "context"
 
 type Load interface {
 	Load(context.Context) error
+	SetLogLevel(ctx context.Context, logLevelName string) error
 }
 
 // ----------------------------------------------------------------------------
