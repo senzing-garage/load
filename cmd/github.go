@@ -1,5 +1,6 @@
 // 0.0.2
 // Created by make-go-github-file.yaml on Mon Aug 14 18:14:12 UTC 2023
+//
 //lint:file-ignore U1000 Ignore all unused code, it's generated
 package cmd
 
