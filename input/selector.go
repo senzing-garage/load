@@ -9,23 +9,6 @@ import (
 	"github.com/senzing/load/input/sqs"
 )
 
-// load is 6201:  https://github.com/Senzing/knowledge-base/blob/main/lists/senzing-product-ids.md
-const productIdentifier = 6201
-
-var idMessages = map[int]string{
-	21: "Scheme: %s",
-	22: "User full: %s",
-	23: "User name: %s",
-	24: "Password: %s",
-	25: "Host full: %s",
-	26: "Host: %s",
-	27: "Port: %s",
-	28: "Path: %s",
-	29: "Fragment: %s",
-	30: "Query string: %s",
-	31: "Parsed query string: %s",
-}
-
 // ----------------------------------------------------------------------------
 func parseURL(urlString string) *url.URL {
 	fmt.Println("Parse url:", urlString)

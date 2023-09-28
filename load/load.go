@@ -40,7 +40,7 @@ var _ Load = (*LoadImpl)(nil)
 
 func (l *LoadImpl) Load(ctx context.Context) error {
 
-	logBuildInfo()
+	l.logBuildInfo()
 	l.logStats()
 
 	ticker := time.NewTicker(time.Duration(l.MonitoringPeriodInSeconds) * time.Second)
@@ -56,21 +56,6 @@ func (l *LoadImpl) Load(ctx context.Context) error {
 	}()
 
 	return input.Read(ctx, l.InputURL, l.EngineConfigJson, l.EngineLogLevel, l.NumberOfWorkers, l.VisibilityPeriodInSeconds, l.LogLevel, l.JSONOutput)
-}
-
-// ----------------------------------------------------------------------------
-
-func logBuildInfo() {
-	buildInfo, ok := debug.ReadBuildInfo()
-	fmt.Println("---------------------------------------------------------------")
-	if ok {
-		fmt.Println("GoVersion:", buildInfo.GoVersion)
-		fmt.Println("Path:", buildInfo.Path)
-		fmt.Println("Main.Path:", buildInfo.Main.Path)
-		fmt.Println("Main.Version:", buildInfo.Main.Version)
-	} else {
-		fmt.Println("Unable to read build info.")
-	}
 }
 
 // ----------------------------------------------------------------------------
