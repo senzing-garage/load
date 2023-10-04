@@ -33,7 +33,7 @@ const (
 // Context variables
 // ----------------------------------------------------------------------------
 
-var ContextVariables = []option.ContextVariable{
+var ContextVariablesForMultiPlatform = []option.ContextVariable{
 	option.DelayInSeconds,
 	option.EngineConfigurationJson,
 	option.EngineModuleName.SetDefault(fmt.Sprintf("load-%d", time.Now().Unix())),
@@ -47,6 +47,8 @@ var ContextVariables = []option.ContextVariable{
 	option.RecordMin,
 	option.RecordMonitor,
 }
+
+var ContextVariables = append(ContextVariablesForMultiPlatform, ContextVariablesForOsArch...)
 
 // ----------------------------------------------------------------------------
 // Private functions

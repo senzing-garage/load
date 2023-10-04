@@ -2,8 +2,10 @@
 # Stages
 # -----------------------------------------------------------------------------
 
-ARG IMAGE_SENZINGAPI_RUNTIME=senzing/senzingapi-runtime:3.6.0
-ARG IMAGE_GO_BUILDER=golang:1.20.4
+# FIXME: ARG IMAGE_SENZINGAPI_RUNTIME=senzing/senzingapi-runtime:3.7.1
+ARG IMAGE_SENZINGAPI_RUNTIME=senzing/senzingapi-runtime:staging
+
+ARG IMAGE_GO_BUILDER=golang:1.21.0-bullseye@sha256:02f350d8452d3f9693a450586659ecdc6e40e9be8f8dfc6d402300d87223fdfa
 ARG IMAGE_FPM_BUILDER=dockter/fpm:latest
 ARG IMAGE_FINAL=alpine
 
@@ -18,22 +20,15 @@ FROM ${IMAGE_SENZINGAPI_RUNTIME} as senzingapi_runtime
 # -----------------------------------------------------------------------------
 
 FROM ${IMAGE_GO_BUILDER} as go_builder
-ENV REFRESHED_AT=2023-08-01
+ENV REFRESHED_AT=2023-10-03
 LABEL Name="senzing/load-builder" \
       Maintainer="support@senzing.com" \
       Version="0.0.1"
 
-# Build arguments.
-
-ARG PROGRAM_NAME="unknown"
-ARG BUILD_VERSION=0.0.0
-ARG BUILD_ITERATION=0
-ARG GO_PACKAGE_NAME="unknown"
-
 # Copy local files from the Git repository.
 
 COPY ./rootfs /
-COPY . ${GOPATH}/src/${GO_PACKAGE_NAME}
+COPY . ${GOPATH}/src/load
 
 # Copy files from prior stage.
 
@@ -42,13 +37,13 @@ COPY --from=senzingapi_runtime  "/opt/senzing/g2/sdk/c/" "/opt/senzing/g2/sdk/c/
 
 # Build go program.
 
-WORKDIR ${GOPATH}/src/${GO_PACKAGE_NAME}
+WORKDIR ${GOPATH}/src/load
 RUN make linux/amd64
 
 # Copy binaries to /output.
 
 RUN mkdir -p /output \
- && cp -R ${GOPATH}/src/${GO_PACKAGE_NAME}/target/*  /output/
+ && cp -R ${GOPATH}/src/load/target/*  /output/
 
 # -----------------------------------------------------------------------------
 # Stage: fpm_builder
@@ -101,7 +96,7 @@ RUN fpm \
 # -----------------------------------------------------------------------------
 
 FROM ${IMAGE_FINAL} as final
-ENV REFRESHED_AT=2023-08-01
+ENV REFRESHED_AT=2023-10-03
 LABEL Name="senzing/load" \
       Maintainer="support@senzing.com" \
       Version="0.0.1"
@@ -112,7 +107,7 @@ ARG PROGRAM_NAME
 
 # Copy files from prior step.
 
-COPY --from=fpm_builder "/output/*"                                  "/output/"
-COPY --from=fpm_builder "/output/linux-amd64/${PROGRAM_NAME}"        "/output/linux-amd64/${PROGRAM_NAME}"
+COPY --from=fpm_builder "/output/*"                       "/output/"
+COPY --from=fpm_builder "/output/linux-amd64/load"        "/output/linux-amd64/load"
 
 CMD ["/bin/bash"]
