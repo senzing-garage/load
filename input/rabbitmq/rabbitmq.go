@@ -17,7 +17,10 @@ func Read(ctx context.Context, urlString, engineConfigJson, logLevel string, jso
 
 	jsonOutput = jsonOutput
 	logger = getLogger()
-	setLogLevel(ctx, logLevel)
+	err := setLogLevel(ctx, logLevel)
+	if err != nil {
+		panic("Cannot set log level")
+	}
 
 	// Work with G2engine.
 	g2engine := createG2Engine(ctx, engineConfigJson)
