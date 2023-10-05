@@ -1,15 +1,4 @@
-package load
-
-import "context"
-
-// ----------------------------------------------------------------------------
-// Types
-// ----------------------------------------------------------------------------
-
-type Load interface {
-	Load(context.Context) error
-	SetLogLevel(ctx context.Context, logLevelName string) error
-}
+package input
 
 // ----------------------------------------------------------------------------
 // Constants
