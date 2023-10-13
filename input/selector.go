@@ -48,14 +48,14 @@ func parseURL(urlString string) *url.URL {
 }
 
 // ----------------------------------------------------------------------------
-func Read(ctx context.Context, inputURL, engineConfigJson string, engineLogLevel, numberOfWorkers, visibilityPeriodInSeconds int, logLevel string, jsonOutput bool) error {
+func Read(ctx context.Context, inputURL, engineConfigJson string, engineLogLevel int64, numberOfWorkers, visibilityPeriodInSeconds int, logLevel string, jsonOutput bool) error {
 	// if len(logLevel) > 0 {
 	// 	msglog.SetLogLevelFromString(logLevel)
 	// }
 
 	u := parseURL(inputURL)
 	if len(inputURL) <= 0 {
-		return fmt.Errorf("Invalid URL: %s", inputURL)
+		return fmt.Errorf("invalid URL: %s", inputURL)
 	}
 	switch u.Scheme {
 	case "amqp":
