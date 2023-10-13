@@ -15,7 +15,6 @@ import (
 // read and process records from the given queue until a system interrupt
 func Read(ctx context.Context, urlString, engineConfigJson string, engineLogLevel int64, numberOfWorkers, visibilityPeriodInSeconds int, logLevel string, jsonOutput bool) {
 
-	jsonOutput = jsonOutput
 	logger = getLogger()
 	err := setLogLevel(ctx, logLevel)
 	if err != nil {

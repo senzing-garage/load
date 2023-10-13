@@ -55,7 +55,7 @@ func Read(ctx context.Context, inputURL, engineConfigJson string, engineLogLevel
 
 	u := parseURL(inputURL)
 	if len(inputURL) <= 0 {
-		return fmt.Errorf("Invalid URL: %s", inputURL)
+		return fmt.Errorf("invalid URL: %s", inputURL)
 	}
 	switch u.Scheme {
 	case "amqp":
