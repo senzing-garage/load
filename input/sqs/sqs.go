@@ -13,9 +13,8 @@ import (
 // ----------------------------------------------------------------------------
 
 // read and process records from the given queue until a system interrupt
-func Read(ctx context.Context, urlString, engineConfigJson string, engineLogLevel, numberOfWorkers, visibilityPeriodInSeconds int, logLevel string, jsonOutput bool) {
+func Read(ctx context.Context, urlString, engineConfigJson string, engineLogLevel int64, numberOfWorkers, visibilityPeriodInSeconds int, logLevel string, jsonOutput bool) {
 
-	jsonOutput = jsonOutput
 	logger = getLogger()
 	err := setLogLevel(ctx, logLevel)
 	if err != nil {
@@ -37,7 +36,7 @@ func Read(ctx context.Context, urlString, engineConfigJson string, engineLogLeve
 
 // create a G2Engine object, on error this function panics.
 // see failOnError
-func createG2Engine(ctx context.Context, engineConfigJson string, engineLogLevel int) g2api.G2engine {
+func createG2Engine(ctx context.Context, engineConfigJson string, engineLogLevel int64) g2api.G2engine {
 	senzingFactory := &factory.SdkAbstractFactoryImpl{}
 	g2Config, err := senzingFactory.GetG2config(ctx)
 	if err != nil {
