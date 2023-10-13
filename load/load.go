@@ -18,7 +18,7 @@ import (
 
 type LoadImpl struct {
 	EngineConfigJson          string
-	EngineLogLevel            int
+	EngineLogLevel            int64
 	InputURL                  string
 	JSONOutput                bool
 	logger                    logging.LoggingInterface
