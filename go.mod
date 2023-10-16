@@ -5,7 +5,7 @@ go 1.21
 require (
 	github.com/senzing/g2-sdk-go v0.7.3
 	github.com/senzing/go-cmdhelping v0.1.8
-	github.com/senzing/go-logging v1.3.2
+	github.com/senzing/go-logging v1.3.3
 	github.com/senzing/go-queueing v0.1.3
 	github.com/senzing/go-sdk-abstract-factory v0.4.1
 	github.com/spf13/cobra v1.7.0
@@ -43,7 +43,7 @@ require (
 	github.com/senzing/g2-sdk-go-grpc v0.4.2 // indirect
 	github.com/senzing/g2-sdk-proto/go v0.0.0-20231013142630-30a869751ff0 // indirect
 	github.com/senzing/go-common v0.3.0 // indirect
-	github.com/senzing/go-messaging v1.3.2 // indirect
+	github.com/senzing/go-messaging v1.3.3 // indirect
 	github.com/senzing/go-observing v0.2.7 // indirect
 	github.com/sourcegraph/conc v0.3.0 // indirect
 	github.com/spf13/afero v1.10.0 // indirect
