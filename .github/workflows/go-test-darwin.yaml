@@ -12,12 +12,13 @@ env:
 
 jobs:
   go-test-darwin:
-    runs-on: macos-latest
+    runs-on: ${{ matrix.os }}
     strategy:
       matrix:
         go: ["1.21"]
-        senzingapi-version: ["staging"]
-    name: Go ${{ matrix.go }} using Senzing API ${{ matrix.senzingapi-version }} on darwin
+        os: [macos-latest]
+        senzingapi-version: [staging]
+    name: "go test with Senzing: ${{ matrix.senzingapi-version }}; OS: ${{ matrix.os }}; Go: ${{ matrix.go }}"
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4

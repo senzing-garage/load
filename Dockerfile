@@ -21,7 +21,7 @@ FROM ${IMAGE_SENZINGAPI_RUNTIME} as senzingapi_runtime
 # -----------------------------------------------------------------------------
 
 FROM ${IMAGE_GO_BUILDER} as go_builder
-ENV REFRESHED_AT=2023-10-03
+ENV REFRESHED_AT=2023-10-02
 LABEL Name="senzing/load-builder" \
       Maintainer="support@senzing.com" \
       Version="0.0.1"
@@ -55,7 +55,7 @@ RUN mkdir -p /output \
 # -----------------------------------------------------------------------------
 
 FROM ${IMAGE_FINAL} as final
-ENV REFRESHED_AT=2023-10-03
+ENV REFRESHED_AT=2023-10-02
 LABEL Name="senzing/load" \
       Maintainer="support@senzing.com" \
       Version="0.0.1"
