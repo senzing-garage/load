@@ -30,7 +30,6 @@ PATH := $(MAKEFILE_DIRECTORY)/bin:$(PATH)
 GO_OSARCH = $(subst /, ,$@)
 GO_OS = $(word 1, $(GO_OSARCH))
 GO_ARCH = $(word 2, $(GO_OSARCH))
-CC = gcc
 
 # Conditional assignment. ('?=')
 # Can be overridden with "export"
