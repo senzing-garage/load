@@ -10,6 +10,21 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 -
 
+## [0.1.0] - 2024-01-03
+
+### Changed in 0.1.0
+
+- Renamed module to `github.com/senzing-garage/load`
+- Refactor to [template-go](https://github.com/senzing-garage/template-go)
+- Update dependencies
+  - github.com/senzing-garage/go-cmdhelping v0.2.0
+  - github.com/senzing-garage/go-logging v1.4.0
+  - github.com/senzing-garage/go-queueing v0.2.0
+  - github.com/senzing/g2-sdk-go v0.8.0
+  - github.com/senzing/go-sdk-abstract-factory v0.5.0
+  - github.com/spf13/cobra v1.8.0
+  - github.com/spf13/viper v1.18.2
+
 ## [0.0.4] - 2023-11-02
 
 ### Added to 0.0.4
@@ -21,12 +36,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added to 0.0.3
 
-- Refactor to [template-go](https://github.com/Senzing/template-go)
+- Refactor to [template-go](https://github.com/senzing-garage/template-go)
 - Update dependencies
   - github.com/senzing/g2-sdk-go v0.7.4
-  - github.com/senzing/go-cmdhelping v0.1.9
-  - github.com/senzing/go-logging v1.3.3
-  - github.com/senzing/go-queueing v0.1.4
+  - github.com/senzing-garage/go-cmdhelping v0.1.9
+  - github.com/senzing-garage/go-logging v1.3.3
+  - github.com/senzing-garage/go-queueing v0.1.4
   - github.com/senzing/go-sdk-abstract-factory v0.4.2
   - github.com/spf13/viper v1.17.0
 

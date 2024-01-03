@@ -5,8 +5,8 @@ import (
 	"fmt"
 	"net/url"
 
-	"github.com/senzing/load/input/rabbitmq"
-	"github.com/senzing/load/input/sqs"
+	"github.com/senzing-garage/load/input/rabbitmq"
+	"github.com/senzing-garage/load/input/sqs"
 )
 
 // ----------------------------------------------------------------------------

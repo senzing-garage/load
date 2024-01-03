@@ -15,7 +15,7 @@ type Load interface {
 // Constants
 // ----------------------------------------------------------------------------
 
-// load is 6201:  https://github.com/Senzing/knowledge-base/blob/main/lists/senzing-product-ids.md
+// load is 6201:  https://github.com/senzing-garage/knowledge-base/blob/main/lists/senzing-product-ids.md
 const ComponentID = 6201
 
 // Log message prefix.
