@@ -5,8 +5,8 @@ import (
 	"fmt"
 
 	"github.com/senzing/g2-sdk-go/g2api"
-	"github.com/senzing/go-logging/logging"
-	"github.com/senzing/go-queueing/queues/sqs"
+	"github.com/senzing-garage/go-logging/logging"
+	"github.com/senzing-garage/go-queueing/queues/sqs"
 	"github.com/senzing/go-sdk-abstract-factory/factory"
 )
 
