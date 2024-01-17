@@ -57,7 +57,7 @@ LABEL Name="senzing/load" \
 
 # Copy files from prior stage.
 
-COPY --from=go_builder "/output/linux-amd64/load" "/app/load"
+COPY --from=go_builder "/output/linux/load" "/app/load"
 
 # Runtime environment variables.
 
