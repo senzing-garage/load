@@ -3,8 +3,7 @@
 # -----------------------------------------------------------------------------
 
 ARG IMAGE_GO_BUILDER=golang:1.21.4-bullseye
-# FIXME: ARG IMAGE_FINAL=senzing/senzingapi-runtime:3.8.0
-ARG IMAGE_FINAL=senzing/senzingapi-runtime:staging
+ARG IMAGE_FINAL=senzing/senzingapi-runtime:3.8.0
 
 # -----------------------------------------------------------------------------
 # Stage: senzingapi_runtime
@@ -58,7 +57,7 @@ LABEL Name="senzing/load" \
 
 # Copy files from prior stage.
 
-COPY --from=go_builder "/output/linux-amd64/load" "/app/load"
+COPY --from=go_builder "/output/linux/load" "/app/load"
 
 # Runtime environment variables.
 
