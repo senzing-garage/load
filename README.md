@@ -15,7 +15,7 @@ Heck, it may not even be appropriate for your application of Senzing!
 ## Synopsis
 
 `load` is a command in the
-[senzing-tools](https://github.com/Senzing/senzing-tools)
+[senzing-tools](https://github.com/senzing-garage/senzing-tools)
 suite of tools.
 This command can pull records from a variety of sources and insert into the Senzing database.
 
