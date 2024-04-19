@@ -57,8 +57,8 @@ github.com/magiconair/properties v1.8.7 h1:IeQXZAiQcpL9mgcAe1Nu6cX9LLw6ExEHKjN0V
 github.com/magiconair/properties v1.8.7/go.mod h1:Dhd985XPs7jluiymwWYZ0G4Z61jb3vdS329zhj2hYo0=
 github.com/mitchellh/mapstructure v1.5.0 h1:jeMsZIYE/09sWLaz43PL7Gy6RuMjD2eJVyuac5Z2hdY=
 github.com/mitchellh/mapstructure v1.5.0/go.mod h1:bFUtVrKA4DC2yAKiSyO/QUcy7e+RRV2QTWOzhPopBRo=
-github.com/pelletier/go-toml/v2 v2.1.1 h1:LWAJwfNvjQZCFIDKWYQaM62NcYeYViCmWIwmOStowAI=
-github.com/pelletier/go-toml/v2 v2.1.1/go.mod h1:tJU2Z3ZkXwnxa4DPO899bsyIoywizdUvyaeZurnPPDc=
+github.com/pelletier/go-toml/v2 v2.2.1 h1:9TA9+T8+8CUCO2+WYnDLCgrYi9+omqKXyjDtosvtEhg=
+github.com/pelletier/go-toml/v2 v2.2.1/go.mod h1:1t835xjRzz80PqgE6HHgN2JOsmgYu/h4qDAS4n929Rs=
 github.com/pmezard/go-difflib v1.0.0/go.mod h1:iKH77koFhYxTK1pcRnkKkqfTogsbg7gZNVY4sRDYZ/4=
 github.com/pmezard/go-difflib v1.0.1-0.20181226105442-5d4384ee4fb2 h1:Jamvg5psRIccs7FGNTlIRMkT8wgtp5eCXdBlqhYGL6U=
 github.com/pmezard/go-difflib v1.0.1-0.20181226105442-5d4384ee4fb2/go.mod h1:iKH77koFhYxTK1pcRnkKkqfTogsbg7gZNVY4sRDYZ/4=
@@ -82,8 +82,8 @@ github.com/senzing-garage/g2-sdk-go-grpc v0.7.0 h1:XfVtqTQHp6U0sxhsekU2n0Clfdckk
 github.com/senzing-garage/g2-sdk-go-grpc v0.7.0/go.mod h1:etC3ZJQgsZsJbSyGZU8hBXCokuwTwalmg48qHoWDDKs=
 github.com/senzing-garage/g2-sdk-proto/go v0.0.0-20240229231149-cd5a92459976 h1:TjxkyM2JeViHP336v19G+lwiDt/3B23JCQmC7v9g/8Q=
 github.com/senzing-garage/g2-sdk-proto/go v0.0.0-20240229231149-cd5a92459976/go.mod h1:0+C/1C265Bl6xw+4Ts1GyiAGyJ1ZsVA5ay0tMr9BSyc=
-github.com/senzing-garage/go-cmdhelping v0.2.0 h1:c1T1v+FUtQ31Lzo7VXmSKGEuIBXPi4RGPjnwy+Lt3Ao=
-github.com/senzing-garage/go-cmdhelping v0.2.0/go.mod h1:+IYFvjFPJlF1Nfxq0RdWqePj8NzPPKEOCYPTLCtk/ic=
+github.com/senzing-garage/go-cmdhelping v0.2.1 h1:F40uSBtxP03/5aXAUW9C5kMuCFj8lFvmvDlJDvAq9qE=
+github.com/senzing-garage/go-cmdhelping v0.2.1/go.mod h1:76FIsPpEWQrsY7DLR5f/I0bi5UB43KfmDd7b1jBfot8=
 github.com/senzing-garage/go-common v0.4.0 h1:/6/5yNY80udkbOzSAX0Vvx2+0kD9JF7fhqNUlRj2Vho=
 github.com/senzing-garage/go-common v0.4.0/go.mod h1:f2EIjPzAcULG8eKUVebIUNS2qgMVcJRgmQY9fpBDF9E=
 github.com/senzing-garage/go-logging v1.4.1 h1:ubNspaf0r4Q29XeNW58q0oPGLq4c1pdf9FciQLw6hpc=
@@ -111,6 +111,7 @@ github.com/spf13/viper v1.18.2/go.mod h1:EKmWIqdnk5lOcmR72yw6hS+8OPYcwD0jteitLMV
 github.com/stretchr/objx v0.1.0/go.mod h1:HFkY916IF+rwdDfMAkV7OtwuqBVzrE8GR6GFx+wExME=
 github.com/stretchr/objx v0.4.0/go.mod h1:YvHI0jy2hoMjB+UWwv71VJQ9isScKT/TqJzVSSt89Yw=
 github.com/stretchr/objx v0.5.0/go.mod h1:Yh+to48EsGEfYuaHDzXPcE3xhTkx73EhmCGUpEOglKo=
+github.com/stretchr/objx v0.5.2/go.mod h1:FRsXN1f5AsAjCGJKqEizvkpNtU+EGNCLh3NxZ/8L+MA=
 github.com/stretchr/testify v1.7.1/go.mod h1:6Fq8oRcR53rry900zMqJjRRixrwX3KX962/h/Wwjteg=
 github.com/stretchr/testify v1.8.0/go.mod h1:yNjHg4UonilssWZ8iaSj1OCr/vHnekPRkoO+kdMU+MU=
 github.com/stretchr/testify v1.8.4/go.mod h1:sz/lmYIOXD/1dqDmKjjqLyZ2RngseejIcXlSw2iwfAo=
@@ -126,8 +127,8 @@ golang.org/x/exp v0.0.0-20240416160154-fe59bbe5cc7f h1:99ci1mjWVBWwJiEKYY6jWa4d2
 golang.org/x/exp v0.0.0-20240416160154-fe59bbe5cc7f/go.mod h1:/lliqkxwWAhPjf5oSOIJup2XcqJaw8RGS6k3TGEc7GI=
 golang.org/x/net v0.22.0 h1:9sGLhx7iRIHEiX0oAJ3MRZMUCElJgy7Br1nO+AMN3Tc=
 golang.org/x/net v0.22.0/go.mod h1:JKghWKKOSdJwpW2GEx0Ja7fmaKnMsbu+MWVZTokSYmg=
-golang.org/x/sys v0.18.0 h1:DBdB3niSjOA/O0blCZBqDefyWNYveAYMNF1Wum0DYQ4=
-golang.org/x/sys v0.18.0/go.mod h1:/VUhepiaJMQUp4+oa/7Zr1D23ma6VTLIYjOOTFZPUcA=
+golang.org/x/sys v0.19.0 h1:q5f1RH2jigJ1MoAWp2KTp3gm5zAGFUTarQZ5U386+4o=
+golang.org/x/sys v0.19.0/go.mod h1:/VUhepiaJMQUp4+oa/7Zr1D23ma6VTLIYjOOTFZPUcA=
 golang.org/x/text v0.14.0 h1:ScX5w1eTa3QqT8oi6+ziP7dTV1S2+ALU0bI+0zXKWiQ=
 golang.org/x/text v0.14.0/go.mod h1:18ZOQIKpY8NJVqYksKHtTdi31H5itFRjB5/qKTNYzSU=
 google.golang.org/genproto/googleapis/rpc v0.0.0-20240314204616-9694c7771956 h1:SKCjEQF4r2S22zjM8qqWq8g+GfDzugTZ9K71woPPcF8=
