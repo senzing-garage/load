@@ -5,7 +5,7 @@ go 1.21
 require (
 	github.com/senzing-garage/g2-sdk-go v0.10.1
 	github.com/senzing-garage/go-cmdhelping v0.2.0
-	github.com/senzing-garage/go-logging v1.4.0
+	github.com/senzing-garage/go-logging v1.4.1
 	github.com/senzing-garage/go-queueing v0.2.1
 	github.com/senzing-garage/go-sdk-abstract-factory v0.7.0
 	github.com/spf13/cobra v1.8.0
@@ -44,7 +44,7 @@ require (
 	github.com/senzing-garage/g2-sdk-go-grpc v0.7.0 // indirect
 	github.com/senzing-garage/g2-sdk-proto/go v0.0.0-20240229231149-cd5a92459976 // indirect
 	github.com/senzing-garage/go-common v0.4.0 // indirect
-	github.com/senzing-garage/go-messaging v1.4.0 // indirect
+	github.com/senzing-garage/go-messaging v1.4.1 // indirect
 	github.com/senzing-garage/go-observing v0.3.0 // indirect
 	github.com/sourcegraph/conc v0.3.0 // indirect
 	github.com/spf13/afero v1.11.0 // indirect
@@ -52,7 +52,7 @@ require (
 	github.com/spf13/pflag v1.0.5 // indirect
 	github.com/subosito/gotenv v1.6.0 // indirect
 	go.uber.org/multierr v1.11.0 // indirect
-	golang.org/x/exp v0.0.0-20240314144324-c7f7c6466f7f // indirect
+	golang.org/x/exp v0.0.0-20240416160154-fe59bbe5cc7f // indirect
 	golang.org/x/net v0.22.0 // indirect
 	golang.org/x/sys v0.18.0 // indirect
 	golang.org/x/text v0.14.0 // indirect
