@@ -7,13 +7,13 @@ import (
 	"github.com/senzing-garage/go-logging/logging"
 	"github.com/senzing-garage/go-queueing/queues/sqs"
 	"github.com/senzing-garage/go-sdk-abstract-factory/szfactorycreator"
-	"github.com/senzing-garage/sz-sdk-go/sz"
+	"github.com/senzing-garage/sz-sdk-go/senzing"
 )
 
 // ----------------------------------------------------------------------------
 
 // read and process records from the given queue until a system interrupt
-func Read(ctx context.Context, urlString, engineConfigJson string, engineLogLevel int64, numberOfWorkers, visibilityPeriodInSeconds int, logLevel string, jsonOutput bool) {
+func Read(ctx context.Context, urlString, engineConfigJSON string, engineLogLevel int64, numberOfWorkers, visibilityPeriodInSeconds int, logLevel string, jsonOutput bool) {
 
 	logger = getLogger()
 	err := setLogLevel(ctx, logLevel)
@@ -22,8 +22,13 @@ func Read(ctx context.Context, urlString, engineConfigJson string, engineLogLeve
 	}
 
 	// Work with szEngine.
-	szEngine := createG2Engine(ctx, engineConfigJson, engineLogLevel)
-	defer szEngine.Destroy(ctx)
+	szEngine := createG2Engine(ctx, engineConfigJSON, engineLogLevel)
+	defer func() {
+		err := szEngine.Destroy(ctx)
+		if err != nil {
+			panic(err)
+		}
+	}()
 
 	startErr := sqs.StartManagedConsumer(ctx, urlString, numberOfWorkers, szEngine, false, int32(visibilityPeriodInSeconds), logLevel, jsonOutput)
 	if startErr != nil {
@@ -34,9 +39,9 @@ func Read(ctx context.Context, urlString, engineConfigJson string, engineLogLeve
 
 // ----------------------------------------------------------------------------
 
-func getAbstractFactory(ctx context.Context, engineConfigJson string, verboseLogging int64) sz.SzAbstractFactory {
+func getAbstractFactory(ctx context.Context, engineConfigJSON string, verboseLogging int64) senzing.SzAbstractFactory {
 	_ = ctx
-	result, err := szfactorycreator.CreateCoreAbstractFactory("load", engineConfigJson, verboseLogging, sz.SZ_INITIALIZE_WITH_DEFAULT_CONFIGURATION)
+	result, err := szfactorycreator.CreateCoreAbstractFactory("load", engineConfigJSON, verboseLogging, senzing.SzInitializeWithDefaultConfiguration)
 	if err != nil {
 		panic(err)
 	}
@@ -45,7 +50,7 @@ func getAbstractFactory(ctx context.Context, engineConfigJson string, verboseLog
 
 // create a G2Engine object, on error this function panics.
 // see failOnError
-func createG2Engine(ctx context.Context, settings string, verboseLogging int64) sz.SzEngine {
+func createG2Engine(ctx context.Context, settings string, verboseLogging int64) senzing.SzEngine {
 	result, err := getAbstractFactory(ctx, settings, verboseLogging).CreateSzEngine(ctx)
 	if err != nil {
 		log(2004, err.Error())
@@ -53,21 +58,21 @@ func createG2Engine(ctx context.Context, settings string, verboseLogging int64) 
 	return result
 }
 
-var logger logging.LoggingInterface = nil
-var jsonOutput bool = false
+var logger logging.Logging
+var jsonOutput bool
 
 // ----------------------------------------------------------------------------
 // Logging --------------------------------------------------------------------
 // ----------------------------------------------------------------------------
 
 // Get the Logger singleton.
-func getLogger() logging.LoggingInterface {
-	var err error = nil
+func getLogger() logging.Logging {
+	var err error
 	if logger == nil {
 		options := []interface{}{
 			&logging.OptionCallerSkip{Value: 4},
 		}
-		logger, err = logging.NewSenzingToolsLogger(ComponentID, IDMessages, options...)
+		logger, err = logging.NewSenzingLogger(ComponentID, IDMessages, options...)
 		if err != nil {
 			panic(err)
 		}
@@ -93,7 +98,7 @@ Input
 */
 func setLogLevel(ctx context.Context, logLevelName string) error {
 	_ = ctx
-	var err error = nil
+	var err error
 
 	// Verify value of logLevelName.
 

@@ -35,7 +35,7 @@ const (
 
 var ContextVariablesForMultiPlatform = []option.ContextVariable{
 	option.DelayInSeconds,
-	option.EngineConfigurationJson,
+	option.EngineConfigurationJSON,
 	option.EngineModuleName.SetDefault(fmt.Sprintf("load-%d", time.Now().Unix())),
 	option.InputFileType,
 	option.InputURL,
@@ -96,8 +96,8 @@ func RunE(_ *cobra.Command, _ []string) error {
 
 	ctx := context.Background()
 
-	loader := &load.LoadImpl{
-		EngineConfigJson: viper.GetString(option.EngineConfigurationJson.Arg),
+	loader := &load.BasicLoad{
+		EngineConfigJSON: viper.GetString(option.EngineConfigurationJSON.Arg),
 		// FileType:                  viper.GetString(option.InputFileType.Arg),
 		InputURL:                  viper.GetString(option.InputURL.Arg),
 		JSONOutput:                viper.GetBool(option.JSONOutput.Arg),
