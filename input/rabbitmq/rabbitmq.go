@@ -13,7 +13,7 @@ import (
 // ----------------------------------------------------------------------------
 
 // read and process records from the given queue until a system interrupt
-func Read(ctx context.Context, urlString, engineConfigJson, logLevel string, jsonOutput bool) {
+func Read(ctx context.Context, urlString, engineConfigJSON, logLevel string, jsonOutput bool) {
 
 	logger = getLogger()
 	err := setLogLevel(ctx, logLevel)
@@ -22,8 +22,13 @@ func Read(ctx context.Context, urlString, engineConfigJson, logLevel string, jso
 	}
 
 	// Work with szEngine.
-	szEngine := createG2Engine(ctx, engineConfigJson, senzing.SzNoLogging)
-	defer szEngine.Destroy(ctx)
+	szEngine := createG2Engine(ctx, engineConfigJSON, senzing.SzNoLogging)
+	defer func() {
+		err := szEngine.Destroy(ctx)
+		if err != nil {
+			panic(err)
+		}
+	}()
 
 	startErr := rabbitmq.StartManagedConsumer(ctx, urlString, 0, &szEngine, false, logLevel, jsonOutput)
 
@@ -35,9 +40,9 @@ func Read(ctx context.Context, urlString, engineConfigJson, logLevel string, jso
 
 // ----------------------------------------------------------------------------
 
-func getAbstractFactory(ctx context.Context, engineConfigJson string, verboseLogging int64) senzing.SzAbstractFactory {
+func getAbstractFactory(ctx context.Context, engineConfigJSON string, verboseLogging int64) senzing.SzAbstractFactory {
 	_ = ctx
-	result, err := szfactorycreator.CreateCoreAbstractFactory("load", engineConfigJson, verboseLogging, senzing.SzInitializeWithDefaultConfiguration)
+	result, err := szfactorycreator.CreateCoreAbstractFactory("load", engineConfigJSON, verboseLogging, senzing.SzInitializeWithDefaultConfiguration)
 	if err != nil {
 		panic(err)
 	}
@@ -55,7 +60,7 @@ func createG2Engine(ctx context.Context, settings string, verboseLogging int64) 
 }
 
 var logger logging.Logging
-var jsonOutput bool = false
+var jsonOutput bool
 
 // ----------------------------------------------------------------------------
 // Logging --------------------------------------------------------------------
@@ -63,7 +68,7 @@ var jsonOutput bool = false
 
 // Get the Logger singleton.
 func getLogger() logging.Logging {
-	var err error = nil
+	var err error
 	if logger == nil {
 		options := []interface{}{
 			&logging.OptionCallerSkip{Value: 4},
@@ -94,7 +99,7 @@ Input
 */
 func setLogLevel(ctx context.Context, logLevelName string) error {
 	_ = ctx
-	var err error = nil
+	var err error
 
 	// Verify value of logLevelName.
 

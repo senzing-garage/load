@@ -23,7 +23,6 @@ This command can pull records from a variety of sources and insert into the Senz
 [![Go Report Card](https://goreportcard.com/badge/github.com/senzing-garage/load)](https://goreportcard.com/report/github.com/senzing-garage/load)
 [![License](https://img.shields.io/badge/License-Apache2-brightgreen.svg)](https://github.com/senzing-garage/load/blob/main/LICENSE)
 
-[![gosec.yaml](https://github.com/senzing-garage/load/actions/workflows/gosec.yaml/badge.svg)](https://github.com/senzing-garage/load/actions/workflows/gosec.yaml)
 [![go-test-linux.yaml](https://github.com/senzing-garage/load/actions/workflows/go-test-linux.yaml/badge.svg)](https://github.com/senzing-garage/load/actions/workflows/go-test-linux.yaml)
 [![go-test-darwin.yaml](https://github.com/senzing-garage/load/actions/workflows/go-test-darwin.yaml/badge.svg)](https://github.com/senzing-garage/load/actions/workflows/go-test-darwin.yaml)
 [![go-test-windows.yaml](https://github.com/senzing-garage/load/actions/workflows/go-test-windows.yaml/badge.svg)](https://github.com/senzing-garage/load/actions/workflows/go-test-windows.yaml)

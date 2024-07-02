@@ -13,7 +13,7 @@ import (
 // ----------------------------------------------------------------------------
 
 // read and process records from the given queue until a system interrupt
-func Read(ctx context.Context, urlString, engineConfigJson string, engineLogLevel int64, numberOfWorkers, visibilityPeriodInSeconds int, logLevel string, jsonOutput bool) {
+func Read(ctx context.Context, urlString, engineConfigJSON string, engineLogLevel int64, numberOfWorkers, visibilityPeriodInSeconds int, logLevel string, jsonOutput bool) {
 
 	logger = getLogger()
 	err := setLogLevel(ctx, logLevel)
@@ -22,8 +22,13 @@ func Read(ctx context.Context, urlString, engineConfigJson string, engineLogLeve
 	}
 
 	// Work with szEngine.
-	szEngine := createG2Engine(ctx, engineConfigJson, engineLogLevel)
-	defer szEngine.Destroy(ctx)
+	szEngine := createG2Engine(ctx, engineConfigJSON, engineLogLevel)
+	defer func() {
+		err := szEngine.Destroy(ctx)
+		if err != nil {
+			panic(err)
+		}
+	}()
 
 	startErr := sqs.StartManagedConsumer(ctx, urlString, numberOfWorkers, szEngine, false, int32(visibilityPeriodInSeconds), logLevel, jsonOutput)
 	if startErr != nil {
@@ -34,9 +39,9 @@ func Read(ctx context.Context, urlString, engineConfigJson string, engineLogLeve
 
 // ----------------------------------------------------------------------------
 
-func getAbstractFactory(ctx context.Context, engineConfigJson string, verboseLogging int64) senzing.SzAbstractFactory {
+func getAbstractFactory(ctx context.Context, engineConfigJSON string, verboseLogging int64) senzing.SzAbstractFactory {
 	_ = ctx
-	result, err := szfactorycreator.CreateCoreAbstractFactory("load", engineConfigJson, verboseLogging, senzing.SzInitializeWithDefaultConfiguration)
+	result, err := szfactorycreator.CreateCoreAbstractFactory("load", engineConfigJSON, verboseLogging, senzing.SzInitializeWithDefaultConfiguration)
 	if err != nil {
 		panic(err)
 	}
@@ -54,7 +59,7 @@ func createG2Engine(ctx context.Context, settings string, verboseLogging int64) 
 }
 
 var logger logging.Logging
-var jsonOutput bool = false
+var jsonOutput bool
 
 // ----------------------------------------------------------------------------
 // Logging --------------------------------------------------------------------
@@ -62,7 +67,7 @@ var jsonOutput bool = false
 
 // Get the Logger singleton.
 func getLogger() logging.Logging {
-	var err error = nil
+	var err error
 	if logger == nil {
 		options := []interface{}{
 			&logging.OptionCallerSkip{Value: 4},
@@ -93,7 +98,7 @@ Input
 */
 func setLogLevel(ctx context.Context, logLevelName string) error {
 	_ = ctx
-	var err error = nil
+	var err error
 
 	// Verify value of logLevelName.
 
