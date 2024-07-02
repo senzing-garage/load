@@ -7,7 +7,7 @@ import (
 	"github.com/senzing-garage/go-logging/logging"
 	"github.com/senzing-garage/go-queueing/queues/rabbitmq"
 	"github.com/senzing-garage/go-sdk-abstract-factory/szfactorycreator"
-	"github.com/senzing-garage/sz-sdk-go/sz"
+	"github.com/senzing-garage/sz-sdk-go/senzing"
 )
 
 // ----------------------------------------------------------------------------
@@ -22,7 +22,7 @@ func Read(ctx context.Context, urlString, engineConfigJson, logLevel string, jso
 	}
 
 	// Work with szEngine.
-	szEngine := createG2Engine(ctx, engineConfigJson, sz.SZ_NO_LOGGING)
+	szEngine := createG2Engine(ctx, engineConfigJson, senzing.SzNoLogging)
 	defer szEngine.Destroy(ctx)
 
 	startErr := rabbitmq.StartManagedConsumer(ctx, urlString, 0, &szEngine, false, logLevel, jsonOutput)
@@ -35,9 +35,9 @@ func Read(ctx context.Context, urlString, engineConfigJson, logLevel string, jso
 
 // ----------------------------------------------------------------------------
 
-func getAbstractFactory(ctx context.Context, engineConfigJson string, verboseLogging int64) sz.SzAbstractFactory {
+func getAbstractFactory(ctx context.Context, engineConfigJson string, verboseLogging int64) senzing.SzAbstractFactory {
 	_ = ctx
-	result, err := szfactorycreator.CreateCoreAbstractFactory("load", engineConfigJson, verboseLogging, sz.SZ_INITIALIZE_WITH_DEFAULT_CONFIGURATION)
+	result, err := szfactorycreator.CreateCoreAbstractFactory("load", engineConfigJson, verboseLogging, senzing.SzInitializeWithDefaultConfiguration)
 	if err != nil {
 		panic(err)
 	}
@@ -46,7 +46,7 @@ func getAbstractFactory(ctx context.Context, engineConfigJson string, verboseLog
 
 // create a G2Engine object, on error this function panics.
 // see failOnError
-func createG2Engine(ctx context.Context, settings string, verboseLogging int64) sz.SzEngine {
+func createG2Engine(ctx context.Context, settings string, verboseLogging int64) senzing.SzEngine {
 	result, err := getAbstractFactory(ctx, settings, verboseLogging).CreateSzEngine(ctx)
 	if err != nil {
 		log(2004, err.Error())
@@ -54,7 +54,7 @@ func createG2Engine(ctx context.Context, settings string, verboseLogging int64) 
 	return result
 }
 
-var logger logging.LoggingInterface = nil
+var logger logging.Logging
 var jsonOutput bool = false
 
 // ----------------------------------------------------------------------------
@@ -62,13 +62,13 @@ var jsonOutput bool = false
 // ----------------------------------------------------------------------------
 
 // Get the Logger singleton.
-func getLogger() logging.LoggingInterface {
+func getLogger() logging.Logging {
 	var err error = nil
 	if logger == nil {
 		options := []interface{}{
 			&logging.OptionCallerSkip{Value: 4},
 		}
-		logger, err = logging.NewSenzingToolsLogger(ComponentID, IDMessages, options...)
+		logger, err = logging.NewSenzingLogger(ComponentID, IDMessages, options...)
 		if err != nil {
 			panic(err)
 		}

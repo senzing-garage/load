@@ -21,7 +21,7 @@ type LoadImpl struct {
 	EngineLogLevel            int64
 	InputURL                  string
 	JSONOutput                bool
-	logger                    logging.LoggingInterface
+	logger                    logging.Logging
 	LogLevel                  string
 	NumberOfWorkers           int
 	MonitoringPeriodInSeconds int
@@ -63,13 +63,13 @@ func (l *LoadImpl) Load(ctx context.Context) error {
 // ----------------------------------------------------------------------------
 
 // Get the Logger singleton.
-func (v *LoadImpl) getLogger() logging.LoggingInterface {
+func (v *LoadImpl) getLogger() logging.Logging {
 	var err error = nil
 	if v.logger == nil {
 		options := []interface{}{
 			&logging.OptionCallerSkip{Value: 4},
 		}
-		v.logger, err = logging.NewSenzingToolsLogger(ComponentID, IDMessages, options...)
+		v.logger, err = logging.NewSenzingLogger(ComponentID, IDMessages, options...)
 		if err != nil {
 			panic(err)
 		}
