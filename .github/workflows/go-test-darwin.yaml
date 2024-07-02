@@ -42,7 +42,6 @@ jobs:
       - name: copy test database files
         run: mkdir /tmp/sqlite && cp testdata/sqlite/G2C.db /tmp/sqlite/G2C.db
 
-
       - name: run go test
         run: go test -exec /Users/runner/work/load/load/bin/macos_exec_dyld.sh -v -p 1 -coverprofile=./cover.out -covermode=atomic -coverpkg=./... ./...
 
@@ -55,6 +54,6 @@ jobs:
   coverage:
     name: coverage
     needs: go-test-darwin
-    uses: senzing-factory/build-resources/.github/workflows/go-coverage.yaml@main
+    uses: senzing-factory/build-resources/.github/workflows/go-coverage.yaml@v2
     with:
       coverage-config: ./.github/coverage/testcoverage-darwin.yaml

@@ -46,7 +46,6 @@ jobs:
       - name: copy test database files
         run: mkdir /tmp/sqlite && cp testdata/sqlite/G2C.db /tmp/sqlite/G2C.db
 
-
       - name: run go test
         run: go test -json -v -p 1 -coverprofile=./cover.out -covermode=atomic -coverpkg=./... ./...  2>&1 | tee /tmp/gotest.log | gotestfmt
 
@@ -67,6 +66,6 @@ jobs:
   coverage:
     name: coverage
     needs: go-test-linux
-    uses: senzing-factory/build-resources/.github/workflows/go-coverage.yaml@main
+    uses: senzing-factory/build-resources/.github/workflows/go-coverage.yaml@v2
     with:
       coverage-config: ./.github/coverage/testcoverage.yaml
