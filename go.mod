@@ -3,7 +3,7 @@ module github.com/senzing-garage/load
 go 1.21
 
 require (
-	github.com/senzing-garage/go-cmdhelping v0.2.2
+	github.com/senzing-garage/go-cmdhelping v0.2.3
 	github.com/senzing-garage/go-logging v1.5.0
 	github.com/senzing-garage/go-queueing v0.3.3
 	github.com/senzing-garage/go-sdk-abstract-factory v0.8.1
@@ -54,9 +54,9 @@ require (
 	github.com/spf13/pflag v1.0.5 // indirect
 	github.com/subosito/gotenv v1.6.0 // indirect
 	go.uber.org/multierr v1.11.0 // indirect
-	golang.org/x/exp v0.0.0-20240613232115-7f521ea00fb8 // indirect
+	golang.org/x/exp v0.0.0-20240707233637-46b078467d37 // indirect
 	golang.org/x/net v0.26.0 // indirect
-	golang.org/x/sys v0.21.0 // indirect
+	golang.org/x/sys v0.22.0 // indirect
 	golang.org/x/text v0.16.0 // indirect
 	google.golang.org/genproto/googleapis/rpc v0.0.0-20240701130421-f6361c86f094 // indirect
 	google.golang.org/grpc v1.65.0 // indirect
