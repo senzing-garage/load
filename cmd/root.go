@@ -19,13 +19,13 @@ const (
 	Short string = "Load records into Senzing."
 	Use   string = "load"
 	Long  string = `
-	Welcome to load!
-	This tool will load records into Senzing. It validates the records conform to the Generic Entity Specification.
+    Welcome to load!
+    This tool will load records into Senzing. It validates the records conform to the Generic Entity Specification.
 
-	For example:
+    For example:
 
-	load --input-url "amqp://guest:guest@192.168.6.96:5672"
-	load --input-url "https://public-read-access.s3.amazonaws.com/TestDataSets/SenzingTruthSet/truth-set-3.0.0.jsonl"
+    load --input-url "amqp://guest:guest@192.168.6.96:5672"
+    load --input-url "https://public-read-access.s3.amazonaws.com/TestDataSets/SenzingTruthSet/truth-set-3.0.0.jsonl"
     `
 )
 
@@ -35,8 +35,8 @@ const (
 
 var ContextVariablesForMultiPlatform = []option.ContextVariable{
 	option.DelayInSeconds,
-	option.EngineConfigurationJSON,
-	option.EngineModuleName.SetDefault(fmt.Sprintf("load-%d", time.Now().Unix())),
+	option.EngineSettings,
+	option.EngineInstanceName.SetDefault(fmt.Sprintf("load-%d", time.Now().Unix())),
 	option.InputFileType,
 	option.InputURL,
 	option.JSONOutput,
@@ -51,12 +51,17 @@ var ContextVariablesForMultiPlatform = []option.ContextVariable{
 var ContextVariables = append(ContextVariablesForMultiPlatform, ContextVariablesForOsArch...)
 
 // ----------------------------------------------------------------------------
-// Private functions
+// Command
 // ----------------------------------------------------------------------------
 
-// Since init() is always invoked, define command line parameters.
-func init() {
-	cmdhelper.Init(RootCmd, ContextVariables)
+// RootCmd represents the command.
+var RootCmd = &cobra.Command{
+	Use:     Use,
+	Short:   Short,
+	Long:    Long,
+	PreRun:  PreRun,
+	RunE:    RunE,
+	Version: Version(),
 }
 
 // ----------------------------------------------------------------------------
@@ -97,7 +102,7 @@ func RunE(_ *cobra.Command, _ []string) error {
 	ctx := context.Background()
 
 	loader := &load.BasicLoad{
-		EngineConfigJSON: viper.GetString(option.EngineConfigurationJSON.Arg),
+		EngineConfigJSON: viper.GetString(option.EngineSettings.Arg),
 		// FileType:                  viper.GetString(option.InputFileType.Arg),
 		InputURL:                  viper.GetString(option.InputURL.Arg),
 		JSONOutput:                viper.GetBool(option.JSONOutput.Arg),
@@ -116,15 +121,10 @@ func Version() string {
 }
 
 // ----------------------------------------------------------------------------
-// Command
+// Private functions
 // ----------------------------------------------------------------------------
 
-// RootCmd represents the command.
-var RootCmd = &cobra.Command{
-	Use:     Use,
-	Short:   Short,
-	Long:    Long,
-	PreRun:  PreRun,
-	RunE:    RunE,
-	Version: Version(),
+// Since init() is always invoked, define command line parameters.
+func init() {
+	cmdhelper.Init(RootCmd, ContextVariables)
 }

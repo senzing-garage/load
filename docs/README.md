@@ -2,4 +2,4 @@
 
 Placeholder for [GitHub pages](https://pages.github.com/).
 
-See [https://hub.senzing.com/load](https://hub.senzing.com/load).
+See [https://garage.senzing.com/load](https://garage.senzing.com/load).
