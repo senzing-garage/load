@@ -30,7 +30,7 @@ func Read(ctx context.Context, urlString, engineConfigJSON string, engineLogLeve
 		}
 	}()
 
-	startErr := sqs.StartManagedConsumer(ctx, urlString, numberOfWorkers, szEngine, false, int32(visibilityPeriodInSeconds), logLevel, jsonOutput)
+	startErr := sqs.StartManagedConsumer(ctx, urlString, numberOfWorkers, szEngine, false, int32(visibilityPeriodInSeconds), logLevel, jsonOutput) //nolint:gosec
 	if startErr != nil {
 		log(5000, startErr.Error())
 	}
