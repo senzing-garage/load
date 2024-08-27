@@ -35,7 +35,7 @@ GO_ARCH = $(word 2, $(GO_OSARCH))
 # Can be overridden with "export"
 
 GOBIN ?= $(shell go env GOPATH)/bin
-LD_LIBRARY_PATH ?= /opt/senzing/g2/lib
+LD_LIBRARY_PATH ?= /opt/senzing/er/lib
 
 # Export environment variables.
 

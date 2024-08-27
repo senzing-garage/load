@@ -22,7 +22,7 @@ func Read(ctx context.Context, urlString, engineConfigJSON string, engineLogLeve
 	}
 
 	// Work with szEngine.
-	szEngine := createG2Engine(ctx, engineConfigJSON, engineLogLevel)
+	szEngine := createSzEngine(ctx, engineConfigJSON, engineLogLevel)
 	defer func() {
 		err := szEngine.Destroy(ctx)
 		if err != nil {
@@ -48,9 +48,9 @@ func getAbstractFactory(ctx context.Context, engineConfigJSON string, verboseLog
 	return result
 }
 
-// create a G2Engine object, on error this function panics.
+// create a SzEngine object, on error this function panics.
 // see failOnError
-func createG2Engine(ctx context.Context, settings string, verboseLogging int64) senzing.SzEngine {
+func createSzEngine(ctx context.Context, settings string, verboseLogging int64) senzing.SzEngine {
 	result, err := getAbstractFactory(ctx, settings, verboseLogging).CreateSzEngine(ctx)
 	if err != nil {
 		log(2004, err.Error())

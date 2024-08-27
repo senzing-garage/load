@@ -38,8 +38,8 @@ COPY . ${GOPATH}/src/${GO_PACKAGE_NAME}
 
 # Copy files from prior stage.
 
-COPY --from=senzingapi_runtime  "/opt/senzing/g2/lib/"   "/opt/senzing/g2/lib/"
-COPY --from=senzingapi_runtime  "/opt/senzing/g2/sdk/c/" "/opt/senzing/g2/sdk/c/"
+COPY --from=senzingapi_runtime  "/opt/senzing/er/lib/"   "/opt/senzing/er/lib/"
+COPY --from=senzingapi_runtime  "/opt/senzing/er/sdk/c/" "/opt/senzing/er/sdk/c/"
 
 # Build go program.
 
@@ -49,7 +49,7 @@ RUN make linux/amd64
 # Copy binaries to /output.
 
 RUN mkdir -p /output \
- && cp -R ${GOPATH}/src/${GO_PACKAGE_NAME}/target/*  /output/
+      && cp -R ${GOPATH}/src/${GO_PACKAGE_NAME}/target/*  /output/
 
 # -----------------------------------------------------------------------------
 # Stage: fpm_builder
@@ -104,8 +104,8 @@ RUN fpm \
 FROM ${IMAGE_FINAL} as final
 ENV REFRESHED_AT=2024-07-01
 LABEL Name="senzing/load" \
-    Maintainer="support@senzing.com" \
-    Version="0.1.0"
+      Maintainer="support@senzing.com" \
+      Version="0.1.0"
 HEALTHCHECK CMD ["/app/healthcheck.sh"]
 
 # Copy local files from the Git repository.

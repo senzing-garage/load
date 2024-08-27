@@ -21,8 +21,8 @@ var IDMessages = map[int]string{
 	// DEBUG 	1000-1999 	Values seen during processing 	May contain sensitive data.
 	// INFO 	2000-2999 	Process steps achieved
 	2004: Prefix + "Unable to retrieve the config: %v",
-	2005: Prefix + "Unable to reach G2: %v",
-	2006: Prefix + "Unable to initialize G2: %v",
+	2005: Prefix + "Unable to reach Sz: %v",
+	2006: Prefix + "Unable to initialize Sz: %v",
 	2999: Prefix + "So long and thanks for all the fish.",
 	// WARN 	3000-3999 	Unexpected situations, but processing was successful
 	// ERROR 	4000-4999 	Unexpected situations, processing was not successful
