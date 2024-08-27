@@ -1,5 +1,8 @@
 # load
 
-Placeholder for [GitHub pages](https://pages.github.com/).
+Placeholder for [GitHub pages].
 
-See [https://garage.senzing.com/load](https://garage.senzing.com/load).
+See [GitHub page].
+
+[GitHub page]: https://garage.senzing.com/load
+[GitHub pages]: https://pages.github.com/

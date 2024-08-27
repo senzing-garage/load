@@ -2,24 +2,28 @@
 # Stages
 # -----------------------------------------------------------------------------
 
-ARG IMAGE_GO_BUILDER=golang:1.22.3-bullseye
+ARG IMAGE_BUILDER=golang:1.22.3-bullseye
 ARG IMAGE_FINAL=senzing/senzingapi-runtime-staging:latest
 
 # -----------------------------------------------------------------------------
 # Stage: senzingapi_runtime
 # -----------------------------------------------------------------------------
 
-FROM ${IMAGE_FINAL} as senzingapi_runtime
+FROM ${IMAGE_FINAL} AS senzingapi_runtime
 
 # -----------------------------------------------------------------------------
-# Stage: go_builder
+# Stage: builder
 # -----------------------------------------------------------------------------
 
-FROM ${IMAGE_GO_BUILDER} as go_builder
+FROM ${IMAGE_BUILDER} AS builder
 ENV REFRESHED_AT=2024-07-01
-LABEL Name="senzing/load-builder" \
+LABEL Name="senzing/go-builder" \
       Maintainer="support@senzing.com" \
       Version="0.1.0"
+
+# Run as "root" for system installation.
+
+USER root
 
 # Copy local files from the Git repository.
 
@@ -43,28 +47,31 @@ RUN make build
 # Copy binaries to /output.
 
 RUN mkdir -p /output \
-      && cp -R ${GOPATH}/src/load/target/*  /output/
+ && cp -R ${GOPATH}/src/load/target/*  /output/
 
 # -----------------------------------------------------------------------------
 # Stage: final
 # -----------------------------------------------------------------------------
 
-FROM ${IMAGE_FINAL} as final
+FROM ${IMAGE_FINAL} AS final
 ENV REFRESHED_AT=2024-07-01
 LABEL Name="senzing/load" \
       Maintainer="support@senzing.com" \
-      Version="0.1.0"
+      Version="0.0.1"
 HEALTHCHECK CMD ["/app/healthcheck.sh"]
 USER root
 
-# Copy local files from the Git repository.
+# Copy files from repository.
 
 COPY ./rootfs /
 
 # Copy files from prior stage.
 
-COPY --from=go_builder "/output/linux/load" "/app/load"
+COPY --from=builder "/output/linux/load" "/app/load"
 
+# Run as non-root container
+
+USER 1001
 
 # Runtime environment variables.
 
@@ -72,6 +79,5 @@ ENV LD_LIBRARY_PATH=/opt/senzing/er/lib/
 
 # Runtime execution.
 
-USER 1001
 WORKDIR /app
 ENTRYPOINT ["/app/load"]
