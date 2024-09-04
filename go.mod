@@ -6,7 +6,7 @@ toolchain go1.22.0
 
 require (
 	github.com/senzing-garage/go-cmdhelping v0.3.0
-	github.com/senzing-garage/go-logging v1.5.0
+	github.com/senzing-garage/go-logging v1.5.1
 	github.com/senzing-garage/go-queueing v0.4.0
 	github.com/senzing-garage/go-sdk-abstract-factory v0.9.1
 	github.com/senzing-garage/sz-sdk-go v0.14.0
@@ -45,7 +45,7 @@ require (
 	github.com/sagikazarmark/locafero v0.6.0 // indirect
 	github.com/sagikazarmark/slog-shim v0.1.0 // indirect
 	github.com/senzing-garage/go-helpers v0.6.0 // indirect
-	github.com/senzing-garage/go-messaging v1.5.1 // indirect
+	github.com/senzing-garage/go-messaging v1.5.2 // indirect
 	github.com/senzing-garage/go-observing v0.3.2 // indirect
 	github.com/senzing-garage/sz-sdk-go-core v0.8.1 // indirect
 	github.com/senzing-garage/sz-sdk-go-grpc v0.8.1 // indirect
