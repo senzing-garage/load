@@ -15,20 +15,29 @@ import (
 // read and process records from the given queue until a system interrupt
 func Read(ctx context.Context, urlString, engineConfigJSON string, engineLogLevel int64, numberOfWorkers, visibilityPeriodInSeconds int, logLevel string, jsonOutput bool) {
 
+	_ = engineLogLevel
+
 	logger = getLogger()
 	err := setLogLevel(ctx, logLevel)
 	if err != nil {
 		panic("Cannot set log level")
 	}
 
-	// Work with szEngine.
-	szEngine := createSzEngine(ctx, engineConfigJSON, engineLogLevel)
+	szAbstractFactory, err := szfactorycreator.CreateCoreAbstractFactory("load", engineConfigJSON, senzing.SzNoLogging, senzing.SzInitializeWithDefaultConfiguration)
+	if err != nil {
+		panic(err)
+	}
 	defer func() {
-		err := szEngine.Destroy(ctx)
+		err := szAbstractFactory.Destroy(ctx)
 		if err != nil {
 			panic(err)
 		}
 	}()
+
+	szEngine, err := szAbstractFactory.CreateSzEngine(ctx)
+	if err != nil {
+		log(2004, err.Error())
+	}
 
 	startErr := sqs.StartManagedConsumer(ctx, urlString, numberOfWorkers, szEngine, false, int32(visibilityPeriodInSeconds), logLevel, jsonOutput) //nolint:gosec
 	if startErr != nil {
@@ -38,25 +47,6 @@ func Read(ctx context.Context, urlString, engineConfigJSON string, engineLogLeve
 }
 
 // ----------------------------------------------------------------------------
-
-func getAbstractFactory(ctx context.Context, engineConfigJSON string, verboseLogging int64) senzing.SzAbstractFactory {
-	_ = ctx
-	result, err := szfactorycreator.CreateCoreAbstractFactory("load", engineConfigJSON, verboseLogging, senzing.SzInitializeWithDefaultConfiguration)
-	if err != nil {
-		panic(err)
-	}
-	return result
-}
-
-// create a SzEngine object, on error this function panics.
-// see failOnError
-func createSzEngine(ctx context.Context, settings string, verboseLogging int64) senzing.SzEngine {
-	result, err := getAbstractFactory(ctx, settings, verboseLogging).CreateSzEngine(ctx)
-	if err != nil {
-		log(2004, err.Error())
-	}
-	return result
-}
 
 var logger logging.Logging
 var jsonOutput bool
