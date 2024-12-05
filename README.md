@@ -39,7 +39,7 @@ See [main.go] for an example of use.
 1. Related artifacts:
     1. [DockerHub]
 
-[SDK documentation]: https://pkg.go.dev/github.com/senzing-garage/template-go
+[SDK documentation]: https://pkg.go.dev/github.com/senzing-garage/load
 [Development]: docs/development.md
 [DockerHub]: https://hub.docker.com/r/senzing/load
 [Errors]: docs/errors.md
