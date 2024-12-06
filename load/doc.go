@@ -1,4 +1,4 @@
 /*
-Package load sends data to the Senzing API to load into the Senzing datastore.
+Package load sends data to the Senzing SDK to load into the Senzing datastore.
 */
 package load

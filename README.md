@@ -32,14 +32,14 @@ See [main.go] for an example of use.
 
 ## References
 
-1. [API documentation]
+1. [SDK documentation]
 1. [Development]
 1. [Errors]
 1. [Examples]
 1. Related artifacts:
     1. [DockerHub]
 
-[API documentation]: https://pkg.go.dev/github.com/senzing-garage/load
+[SDK documentation]: https://pkg.go.dev/github.com/senzing-garage/load
 [Development]: docs/development.md
 [DockerHub]: https://hub.docker.com/r/senzing/load
 [Errors]: docs/errors.md
