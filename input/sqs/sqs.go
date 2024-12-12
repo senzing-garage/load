@@ -34,7 +34,7 @@ func Read(ctx context.Context, urlString, engineConfigJSON string, engineLogLeve
 		}
 	}()
 
-	szEngine, err := szAbstractFactory.CreateSzEngine(ctx)
+	szEngine, err := szAbstractFactory.CreateEngine(ctx)
 	if err != nil {
 		log(2004, err.Error())
 	}

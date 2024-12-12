@@ -32,7 +32,7 @@ func Read(ctx context.Context, urlString, engineConfigJSON, logLevel string, jso
 		}
 	}()
 
-	szEngine, err := szAbstractFactory.CreateSzEngine(ctx)
+	szEngine, err := szAbstractFactory.CreateEngine(ctx)
 	if err != nil {
 		panic(err)
 	}
