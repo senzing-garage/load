@@ -1,5 +1,5 @@
-github.com/aquilax/truncate v1.0.0 h1:UgIGS8U/aZ4JyOJ2h3xcF5cSQ06+gGBnjxH2RUHJe0U=
-github.com/aquilax/truncate v1.0.0/go.mod h1:BeMESIDMlvlS3bmg4BVvBbbZUNwWtS8uzYPAKXwwhLw=
+github.com/aquilax/truncate v1.0.1 h1:+hqGSRxnQ0F5wdPCGbi1XW4ipQ6vzpli23V9Rd+I/mc=
+github.com/aquilax/truncate v1.0.1/go.mod h1:BeMESIDMlvlS3bmg4BVvBbbZUNwWtS8uzYPAKXwwhLw=
 github.com/aws/aws-sdk-go-v2 v1.32.6 h1:7BokKRgRPuGmKkFMhEg/jSul+tB9VvXhcViILtfG8b4=
 github.com/aws/aws-sdk-go-v2 v1.32.6/go.mod h1:P5WJBrYqqbWVaOxgH0X/FYYD47/nooaPOZPlQdmiN2U=
 github.com/aws/aws-sdk-go-v2/config v1.28.6 h1:D89IKtGrs/I3QXOLNTH93NJYtDhm8SYa9Q5CsPShmyo=
@@ -90,8 +90,8 @@ github.com/senzing-garage/go-queueing v0.4.2 h1:Kh3J5lUf59hy1VvxnPThFU40M4STH37v
 github.com/senzing-garage/go-queueing v0.4.2/go.mod h1:hnDKxZEkfHVbB10mwvdSpbF12J/7GVDCxh+uf3HOQbQ=
 github.com/senzing-garage/go-sdk-abstract-factory v0.9.4 h1:IiUmXlcimjNPAs6iQjiPb5cH0pjRO8XoxKt4sSB4em0=
 github.com/senzing-garage/go-sdk-abstract-factory v0.9.4/go.mod h1:Am5Ja8sYDwoY766WqDtyfxJezlTLvK1TaziE3ylKIjc=
-github.com/senzing-garage/sz-sdk-go v0.14.4 h1:sw4GokZhuIvkoBf/QYyjolD/Uz5IxCQ+Pu2KVUlTSsc=
-github.com/senzing-garage/sz-sdk-go v0.14.4/go.mod h1:4VXZYdA6Fg4GkTFsd2HsPxxd3dMRadLD4An4BbhcvWk=
+github.com/senzing-garage/sz-sdk-go v0.14.5 h1:EbXg15KcrBUFiN7dyptHKye0UiMmG1ZaSHO48j1RlSs=
+github.com/senzing-garage/sz-sdk-go v0.14.5/go.mod h1:wwLyt+FAF2xA3hWHjWkNOYvKZvjHxfHDvspTHA/Dtno=
 github.com/senzing-garage/sz-sdk-go-core v0.8.6 h1:XDVDjXa98tklkawZAywSqWwB07KQpVnf6KdvNspetx4=
 github.com/senzing-garage/sz-sdk-go-core v0.8.6/go.mod h1:A9+qpU4JRj4EayM2utzZFdRSst2V7D2E7H5+Nyw5+4w=
 github.com/senzing-garage/sz-sdk-go-grpc v0.8.5 h1:ZzPPIWMq2ZOFPeuRY1PWJ/AKbUPIFxsVkbU86o6kCkQ=
