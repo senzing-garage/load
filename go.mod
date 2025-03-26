@@ -11,7 +11,7 @@ require (
 	github.com/senzing-garage/go-sdk-abstract-factory v0.9.5
 	github.com/senzing-garage/sz-sdk-go v0.14.5
 	github.com/spf13/cobra v1.9.1
-	github.com/spf13/viper v1.20.0
+	github.com/spf13/viper v1.20.1
 	github.com/stretchr/testify v1.10.0
 )
 
