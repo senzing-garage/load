@@ -2,7 +2,7 @@
 # Stages
 # -----------------------------------------------------------------------------
 
-ARG IMAGE_BUILDER=golang:1.23.4-bookworm
+ARG IMAGE_BUILDER=golang:1.24.1-bookworm
 ARG IMAGE_FINAL=senzing/senzingsdk-runtime-beta:latest
 
 # -----------------------------------------------------------------------------
@@ -61,13 +61,15 @@ LABEL Name="senzing/load" \
 HEALTHCHECK CMD ["/app/healthcheck.sh"]
 USER root
 
+# Install packages via apt-get.
+
 # Copy files from repository.
 
 COPY ./rootfs /
 
 # Copy files from prior stage.
 
-COPY --from=builder "/output/linux/load" "/app/load"
+COPY --from=builder /output/linux/load /app/load
 
 # Run as non-root container
 
