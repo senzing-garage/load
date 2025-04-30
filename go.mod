@@ -5,7 +5,7 @@ go 1.24
 require (
 	github.com/senzing-garage/go-cmdhelping v0.3.4
 	github.com/senzing-garage/go-logging v1.5.2
-	github.com/senzing-garage/go-queueing v0.4.2
+	github.com/senzing-garage/go-queueing v0.4.3
 	github.com/senzing-garage/go-sdk-abstract-factory v0.9.8
 	github.com/senzing-garage/sz-sdk-go v0.15.2
 	github.com/spf13/cobra v1.9.1
