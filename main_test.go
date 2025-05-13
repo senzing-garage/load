@@ -6,7 +6,8 @@ import (
 )
 
 func TestMain(test *testing.T) {
-	_ = test
+	test.Parallel()
+
 	os.Args = []string{"command-name", "--version"}
 
 	main()
