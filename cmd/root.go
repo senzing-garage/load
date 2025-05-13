@@ -77,25 +77,25 @@ func Execute() {
 	}
 }
 
-// Used in construction of cobra.Command
+// Used in construction of cobra.Command.
 func PreRun(cobraCommand *cobra.Command, args []string) {
 	cmdhelper.PreRun(cobraCommand, args, Use, ContextVariables)
 }
 
-// Used in construction of cobra.Command
+// Used in construction of cobra.Command.
 func RunE(_ *cobra.Command, _ []string) error {
-	jsonOutput := viper.GetBool(option.JSONOutput.Arg)
-	if !jsonOutput {
-		fmt.Println("Run with the following parameters:")
-		for _, key := range viper.AllKeys() {
-			fmt.Println("  - ", key, " = ", viper.Get(key))
-		}
-	}
+	// jsonOutput := viper.GetBool(option.JSONOutput.Arg)
+	// if !jsonOutput {
+	// 	fmt.Println("Run with the following parameters:")
+	// 	for _, key := range viper.AllKeys() {
+	// 		fmt.Println("  - ", key, " = ", viper.Get(key))
+	// 	}
+	// }
 
 	if viper.GetInt(option.DelayInSeconds.Arg) > 0 {
-		if !jsonOutput {
-			fmt.Println(time.Now(), "Sleep for", viper.GetInt(option.DelayInSeconds.Arg), "seconds to let queues and databases settle down and come up.")
-		}
+		// if !jsonOutput {
+		// 	fmt.Println(time.Now(), "Sleep for", viper.GetInt(option.DelayInSeconds.Arg), "seconds to let queues and databases settle down and come up.")
+		// }
 		time.Sleep(time.Duration(viper.GetInt(option.DelayInSeconds.Arg)) * time.Second)
 	}
 
@@ -115,7 +115,7 @@ func RunE(_ *cobra.Command, _ []string) error {
 	return loader.Load(ctx)
 }
 
-// Used in construction of cobra.Command
+// Used in construction of cobra.Command.
 func Version() string {
 	return cmdhelper.Version(githubVersion, githubIteration)
 }

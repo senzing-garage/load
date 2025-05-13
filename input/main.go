@@ -1,5 +1,7 @@
 package input
 
+import "errors"
+
 // ----------------------------------------------------------------------------
 // Constants
 // ----------------------------------------------------------------------------
@@ -15,7 +17,7 @@ const Prefix = "load: "
 // ----------------------------------------------------------------------------
 
 // Error level ranges and usage:
-// Level 	Range 		Use 							Comments
+// Level 	Range 		Use 							Comments.
 var IDMessages = map[int]string{
 	// TRACE 	0000-0999 	Entry/Exit tracing 				May contain sensitive data.
 	// DEBUG 	1000-1999 	Values seen during processing 	May contain sensitive data.
@@ -40,3 +42,5 @@ var IDMessages = map[int]string{
 
 // Status strings for specific messages.
 var IDStatuses = map[int]string{}
+
+var errForPackage = errors.New("input")

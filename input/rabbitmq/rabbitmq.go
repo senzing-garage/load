@@ -4,6 +4,7 @@ import (
 	"context"
 	"fmt"
 
+	"github.com/senzing-garage/go-helpers/wraperror"
 	"github.com/senzing-garage/go-logging/logging"
 	"github.com/senzing-garage/go-queueing/queues/rabbitmq"
 	"github.com/senzing-garage/go-sdk-abstract-factory/szfactorycreator"
@@ -12,7 +13,7 @@ import (
 
 // ----------------------------------------------------------------------------
 
-// read and process records from the given queue until a system interrupt
+// Read and process records from the given queue until a system interrupt.
 func Read(ctx context.Context, urlString, engineConfigJSON, logLevel string, jsonOutput bool) {
 
 	logger = getLogger()
@@ -21,7 +22,12 @@ func Read(ctx context.Context, urlString, engineConfigJSON, logLevel string, jso
 		panic("Cannot set log level")
 	}
 
-	szAbstractFactory, err := szfactorycreator.CreateCoreAbstractFactory("load", engineConfigJSON, senzing.SzNoLogging, senzing.SzInitializeWithDefaultConfiguration)
+	szAbstractFactory, err := szfactorycreator.CreateCoreAbstractFactory(
+		"load",
+		engineConfigJSON,
+		senzing.SzNoLogging,
+		senzing.SzInitializeWithDefaultConfiguration,
+	)
 	if err != nil {
 		panic(err)
 	}
@@ -59,7 +65,7 @@ func getLogger() logging.Logging {
 	var err error
 	if logger == nil {
 		options := []interface{}{
-			&logging.OptionCallerSkip{Value: 4},
+			&logging.OptionCallerSkip{Value: OptionCallerSkip},
 		}
 		logger, err = logging.NewSenzingLogger(ComponentID, IDMessages, options...)
 		if err != nil {
@@ -74,7 +80,7 @@ func log(messageNumber int, details ...interface{}) {
 	if jsonOutput {
 		getLogger().Log(messageNumber, details...)
 	} else {
-		fmt.Println(fmt.Sprintf(IDMessages[messageNumber], details...))
+		fmt.Println(fmt.Sprintf(IDMessages[messageNumber], details...)) //nolint
 	}
 }
 
@@ -92,11 +98,11 @@ func setLogLevel(ctx context.Context, logLevelName string) error {
 	// Verify value of logLevelName.
 
 	if !logging.IsValidLogLevelName(logLevelName) {
-		return fmt.Errorf("invalid error level: %s", logLevelName)
+		return wraperror.Errorf(errForPackage, "invalid error level: %s", logLevelName)
 	}
 
 	// Set ValidateImpl log level.
 
 	err = getLogger().SetLogLevel(logLevelName)
-	return err
+	return wraperror.Errorf(err, "rabbitmq.setLogLevel error: %w", err)
 }

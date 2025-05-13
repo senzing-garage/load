@@ -2,16 +2,15 @@ package input
 
 import (
 	"context"
-	"fmt"
 	"net/url"
 
+	"github.com/senzing-garage/go-helpers/wraperror"
 	"github.com/senzing-garage/load/input/rabbitmq"
 	"github.com/senzing-garage/load/input/sqs"
 )
 
-// ----------------------------------------------------------------------------
 func parseURL(urlString string) *url.URL {
-	fmt.Println("Parse url:", urlString)
+	// fmt.Println("Parse url:", urlString)
 	u, err := url.Parse(urlString)
 	if err != nil {
 		panic(err)
@@ -47,15 +46,22 @@ func parseURL(urlString string) *url.URL {
 	return u
 }
 
-// ----------------------------------------------------------------------------
-func Read(ctx context.Context, inputURL, engineConfigJSON string, engineLogLevel int64, numberOfWorkers, visibilityPeriodInSeconds int, logLevel string, jsonOutput bool) error {
+func Read(
+	ctx context.Context,
+	inputURL, engineConfigJSON string,
+	engineLogLevel int64,
+	numberOfWorkers int,
+	visibilityPeriodInSeconds int32,
+	logLevel string,
+	jsonOutput bool,
+) error {
 	// if len(logLevel) > 0 {
 	// 	msglog.SetLogLevelFromString(logLevel)
 	// }
 
 	u := parseURL(inputURL)
 	if len(inputURL) == 0 {
-		return fmt.Errorf("invalid URL: %s", inputURL)
+		return wraperror.Errorf(errForPackage, "invalid URL: %s", inputURL)
 	}
 	switch u.Scheme {
 	case "amqp":
@@ -63,10 +69,28 @@ func Read(ctx context.Context, inputURL, engineConfigJSON string, engineLogLevel
 	case "sqs":
 		// allows for using a dummy URL with just a queue-name
 		// eg  sqs://lookup?queue-name=myqueue
-		sqs.Read(ctx, inputURL, engineConfigJSON, engineLogLevel, numberOfWorkers, visibilityPeriodInSeconds, logLevel, jsonOutput)
+		sqs.Read(
+			ctx,
+			inputURL,
+			engineConfigJSON,
+			engineLogLevel,
+			numberOfWorkers,
+			visibilityPeriodInSeconds,
+			logLevel,
+			jsonOutput,
+		)
 	case "https":
 		// uses actual AWS SQS URL.  TODO: detect sqs/amazonaws url?
-		sqs.Read(ctx, inputURL, engineConfigJSON, engineLogLevel, numberOfWorkers, visibilityPeriodInSeconds, logLevel, jsonOutput)
+		sqs.Read(
+			ctx,
+			inputURL,
+			engineConfigJSON,
+			engineLogLevel,
+			numberOfWorkers,
+			visibilityPeriodInSeconds,
+			logLevel,
+			jsonOutput,
+		)
 	default:
 		// msglog.Log(2001, u.Scheme, messagelogger.LevelWarn)
 	}

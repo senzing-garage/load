@@ -4,6 +4,7 @@ import (
 	"context"
 	"fmt"
 
+	"github.com/senzing-garage/go-helpers/wraperror"
 	"github.com/senzing-garage/go-logging/logging"
 	"github.com/senzing-garage/go-queueing/queues/sqs"
 	"github.com/senzing-garage/go-sdk-abstract-factory/szfactorycreator"
@@ -12,8 +13,16 @@ import (
 
 // ----------------------------------------------------------------------------
 
-// read and process records from the given queue until a system interrupt
-func Read(ctx context.Context, urlString, engineConfigJSON string, engineLogLevel int64, numberOfWorkers, visibilityPeriodInSeconds int, logLevel string, jsonOutput bool) {
+// Read and process records from the given queue until a system interrupt.
+func Read(
+	ctx context.Context,
+	urlString, engineConfigJSON string,
+	engineLogLevel int64,
+	numberOfWorkers int,
+	visibilityPeriodInSeconds int32,
+	logLevel string,
+	jsonOutput bool,
+) {
 
 	_ = engineLogLevel
 
@@ -23,7 +32,12 @@ func Read(ctx context.Context, urlString, engineConfigJSON string, engineLogLeve
 		panic("Cannot set log level")
 	}
 
-	szAbstractFactory, err := szfactorycreator.CreateCoreAbstractFactory("load", engineConfigJSON, senzing.SzNoLogging, senzing.SzInitializeWithDefaultConfiguration)
+	szAbstractFactory, err := szfactorycreator.CreateCoreAbstractFactory(
+		"load",
+		engineConfigJSON,
+		senzing.SzNoLogging,
+		senzing.SzInitializeWithDefaultConfiguration,
+	)
 	if err != nil {
 		panic(err)
 	}
@@ -39,7 +53,16 @@ func Read(ctx context.Context, urlString, engineConfigJSON string, engineLogLeve
 		log(2004, err.Error())
 	}
 
-	startErr := sqs.StartManagedConsumer(ctx, urlString, numberOfWorkers, szEngine, false, int32(visibilityPeriodInSeconds), logLevel, jsonOutput) //nolint:gosec
+	startErr := sqs.StartManagedConsumer(
+		ctx,
+		urlString,
+		numberOfWorkers,
+		szEngine,
+		false,
+		visibilityPeriodInSeconds,
+		logLevel,
+		jsonOutput,
+	)
 	if startErr != nil {
 		log(5000, startErr.Error())
 	}
@@ -60,7 +83,7 @@ func getLogger() logging.Logging {
 	var err error
 	if logger == nil {
 		options := []interface{}{
-			&logging.OptionCallerSkip{Value: 4},
+			&logging.OptionCallerSkip{Value: OptionCallerSkip},
 		}
 		logger, err = logging.NewSenzingLogger(ComponentID, IDMessages, options...)
 		if err != nil {
@@ -75,7 +98,7 @@ func log(messageNumber int, details ...interface{}) {
 	if jsonOutput {
 		getLogger().Log(messageNumber, details...)
 	} else {
-		fmt.Println(fmt.Sprintf(IDMessages[messageNumber], details...))
+		fmt.Println(fmt.Sprintf(IDMessages[messageNumber], details...)) //nolint
 	}
 }
 
@@ -93,7 +116,7 @@ func setLogLevel(ctx context.Context, logLevelName string) error {
 	// Verify value of logLevelName.
 
 	if !logging.IsValidLogLevelName(logLevelName) {
-		return fmt.Errorf("invalid error level: %s", logLevelName)
+		return wraperror.Errorf(errForPackage, "invalid error level: %s", logLevelName)
 	}
 
 	// Set ValidateImpl log level.
