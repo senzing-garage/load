@@ -11,7 +11,7 @@ import (
 
 func parseURL(urlString string) *url.URL {
 	// fmt.Println("Parse url:", urlString)
-	u, err := url.Parse(urlString)
+	parsedURL, err := url.Parse(urlString)
 	if err != nil {
 		panic(err)
 	}
@@ -43,7 +43,7 @@ func parseURL(urlString string) *url.URL {
 	// msglog.Log(31, m, messagelogger.LevelInfo)
 	// fmt.Println("Query:", m)
 
-	return u
+	return parsedURL
 }
 
 func Read(
@@ -58,12 +58,13 @@ func Read(
 	// if len(logLevel) > 0 {
 	// 	msglog.SetLogLevelFromString(logLevel)
 	// }
+	parsedURL := parseURL(inputURL)
 
-	u := parseURL(inputURL)
 	if len(inputURL) == 0 {
 		return wraperror.Errorf(errForPackage, "invalid URL: %s", inputURL)
 	}
-	switch u.Scheme {
+
+	switch parsedURL.Scheme {
 	case "amqp":
 		rabbitmq.Read(ctx, inputURL, engineConfigJSON, logLevel, jsonOutput)
 	case "sqs":
@@ -91,8 +92,7 @@ func Read(
 			logLevel,
 			jsonOutput,
 		)
-	default:
-		// msglog.Log(2001, u.Scheme, messagelogger.LevelWarn)
 	}
+
 	return nil
 }

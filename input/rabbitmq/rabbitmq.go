@@ -15,8 +15,8 @@ import (
 
 // Read and process records from the given queue until a system interrupt.
 func Read(ctx context.Context, urlString, engineConfigJSON, logLevel string, jsonOutput bool) {
-
 	logger = getLogger()
+
 	err := setLogLevel(ctx, logLevel)
 	if err != nil {
 		panic("Cannot set log level")
@@ -31,6 +31,7 @@ func Read(ctx context.Context, urlString, engineConfigJSON, logLevel string, jso
 	if err != nil {
 		panic(err)
 	}
+
 	defer func() {
 		err := szAbstractFactory.Destroy(ctx)
 		if err != nil {
@@ -48,6 +49,7 @@ func Read(ctx context.Context, urlString, engineConfigJSON, logLevel string, jso
 	if startErr != nil {
 		log(5000, startErr.Error())
 	}
+
 	log(2999)
 }
 
@@ -63,15 +65,18 @@ var jsonOutput bool
 // Get the Logger singleton.
 func getLogger() logging.Logging {
 	var err error
+
 	if logger == nil {
 		options := []interface{}{
 			&logging.OptionCallerSkip{Value: OptionCallerSkip},
 		}
+
 		logger, err = logging.NewSenzingLogger(ComponentID, IDMessages, options...)
 		if err != nil {
 			panic(err)
 		}
 	}
+
 	return logger
 }
 
@@ -93,6 +98,7 @@ Input
 */
 func setLogLevel(ctx context.Context, logLevelName string) error {
 	_ = ctx
+
 	var err error
 
 	// Verify value of logLevelName.
@@ -104,5 +110,6 @@ func setLogLevel(ctx context.Context, logLevelName string) error {
 	// Set ValidateImpl log level.
 
 	err = getLogger().SetLogLevel(logLevelName)
+
 	return wraperror.Errorf(err, "rabbitmq.setLogLevel error: %w", err)
 }

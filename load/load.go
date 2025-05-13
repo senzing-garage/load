@@ -42,11 +42,11 @@ var _ Load = (*BasicLoad)(nil)
 // ----------------------------------------------------------------------------
 
 func (load *BasicLoad) Load(ctx context.Context) error {
-
 	load.logBuildInfo()
 	load.logStats()
 
 	ticker := time.NewTicker(time.Duration(load.MonitoringPeriodInSeconds) * time.Second)
+
 	go func() {
 		for {
 			select {
@@ -58,7 +58,7 @@ func (load *BasicLoad) Load(ctx context.Context) error {
 		}
 	}()
 
-	return input.Read(
+	err := input.Read(
 		ctx,
 		load.InputURL,
 		load.EngineConfigJSON,
@@ -68,6 +68,8 @@ func (load *BasicLoad) Load(ctx context.Context) error {
 		load.LogLevel,
 		load.JSONOutput,
 	)
+
+	return wraperror.Errorf(err, "load.Load error: %w", err)
 }
 
 /*
@@ -79,6 +81,7 @@ Input
 */
 func (load *BasicLoad) SetLogLevel(ctx context.Context, logLevelName string) error {
 	_ = ctx
+
 	var err error
 
 	// Verify value of logLevelName.
@@ -90,7 +93,8 @@ func (load *BasicLoad) SetLogLevel(ctx context.Context, logLevelName string) err
 	// Set ValidateImpl log level.
 
 	err = load.getLogger().SetLogLevel(logLevelName)
-	return err
+
+	return wraperror.Errorf(err, "load.SetLogLevel error: %w", err)
 }
 
 // ----------------------------------------------------------------------------
@@ -104,15 +108,18 @@ func (load *BasicLoad) SetLogLevel(ctx context.Context, logLevelName string) err
 // Get the Logger singleton.
 func (load *BasicLoad) getLogger() logging.Logging {
 	var err error
+
 	if load.logger == nil {
 		options := []interface{}{
 			&logging.OptionCallerSkip{Value: OptionCallerSkip},
 		}
+
 		load.logger, err = logging.NewSenzingLogger(ComponentID, IDMessages, options...)
 		if err != nil {
 			panic(err)
 		}
 	}
+
 	return load.logger
 }
 
@@ -143,12 +150,17 @@ var lock sync.Mutex
 func (load *BasicLoad) logStats() {
 	lock.Lock()
 	defer lock.Unlock()
+
 	cpus := runtime.NumCPU()
 	goRoutines := runtime.NumGoroutine()
 	cgoCalls := runtime.NumCgoCall()
+
 	var memStats runtime.MemStats
+
 	runtime.ReadMemStats(&memStats)
+
 	var gcStats debug.GCStats
+
 	debug.ReadGCStats(&gcStats)
 	load.log(
 		2003,
@@ -167,5 +179,4 @@ func (load *BasicLoad) logStats() {
 		memStats.Sys,
 		memStats.GCCPUFraction,
 	)
-
 }

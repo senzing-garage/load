@@ -1,9 +1,10 @@
-package cmd
+package cmd_test
 
 import (
 	"os"
 	"testing"
 
+	"github.com/senzing-garage/load/cmd"
 	"github.com/stretchr/testify/require"
 )
 
@@ -14,45 +15,49 @@ import (
 func Test_Execute(test *testing.T) {
 	_ = test
 	os.Args = []string{"command-name", "--help"}
-	Execute()
+
+	cmd.Execute()
 }
 
 func Test_Execute_completion(test *testing.T) {
 	_ = test
 	os.Args = []string{"command-name", "completion"}
-	Execute()
+
+	cmd.Execute()
 }
 
 func Test_Execute_docs(test *testing.T) {
 	_ = test
 	os.Args = []string{"command-name", "docs"}
-	Execute()
+
+	cmd.Execute()
 }
 
 func Test_Execute_help(test *testing.T) {
 	_ = test
 	os.Args = []string{"command-name", "--help"}
-	Execute()
+
+	cmd.Execute()
 }
 
 func Test_PreRun(test *testing.T) {
 	_ = test
 	args := []string{"command-name", "--help"}
-	PreRun(RootCmd, args)
+	cmd.PreRun(cmd.RootCmd, args)
 }
 
 func Test_completionCmd(test *testing.T) {
 	_ = test
-	err := CompletionCmd.Execute()
+	err := cmd.CompletionCmd.Execute()
 	require.NoError(test, err)
-	err = CompletionCmd.RunE(CompletionCmd, []string{})
+	err = cmd.CompletionCmd.RunE(cmd.CompletionCmd, []string{})
 	require.NoError(test, err)
 }
 
 func Test_docsCmd(test *testing.T) {
 	_ = test
-	err := DocsCmd.Execute()
+	err := cmd.DocsCmd.Execute()
 	require.NoError(test, err)
-	err = DocsCmd.RunE(DocsCmd, []string{})
+	err = cmd.DocsCmd.RunE(cmd.DocsCmd, []string{})
 	require.NoError(test, err)
 }

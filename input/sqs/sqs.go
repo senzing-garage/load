@@ -23,10 +23,10 @@ func Read(
 	logLevel string,
 	jsonOutput bool,
 ) {
-
 	_ = engineLogLevel
 
 	logger = getLogger()
+
 	err := setLogLevel(ctx, logLevel)
 	if err != nil {
 		panic("Cannot set log level")
@@ -41,6 +41,7 @@ func Read(
 	if err != nil {
 		panic(err)
 	}
+
 	defer func() {
 		err := szAbstractFactory.Destroy(ctx)
 		if err != nil {
@@ -66,6 +67,7 @@ func Read(
 	if startErr != nil {
 		log(5000, startErr.Error())
 	}
+
 	log(2999)
 }
 
@@ -81,15 +83,18 @@ var jsonOutput bool
 // Get the Logger singleton.
 func getLogger() logging.Logging {
 	var err error
+
 	if logger == nil {
 		options := []interface{}{
 			&logging.OptionCallerSkip{Value: OptionCallerSkip},
 		}
+
 		logger, err = logging.NewSenzingLogger(ComponentID, IDMessages, options...)
 		if err != nil {
 			panic(err)
 		}
 	}
+
 	return logger
 }
 
@@ -111,6 +116,7 @@ Input
 */
 func setLogLevel(ctx context.Context, logLevelName string) error {
 	_ = ctx
+
 	var err error
 
 	// Verify value of logLevelName.
@@ -122,5 +128,6 @@ func setLogLevel(ctx context.Context, logLevelName string) error {
 	// Set ValidateImpl log level.
 
 	err = getLogger().SetLogLevel(logLevelName)
-	return err
+
+	return wraperror.Errorf(err, "sqs.setLogLevel error %w", err)
 }

@@ -70,7 +70,7 @@ linters:
     - nilerr
     - nilnesserr
     - nilnil
-    # - nlreturn
+    - nlreturn
     - noctx
     - nolintlint
     - nonamedreturns
@@ -93,7 +93,7 @@ linters:
     - tagliatelle
     - testableexamples
     - testifylint
-    # - testpackage
+    - testpackage
     - thelper
     - tparallel
     - unconvert
@@ -101,11 +101,11 @@ linters:
     - unused
     - usestdlibvars
     - usetesting
-    # - varnamelen
+    - varnamelen
     - wastedassign
-    # - whitespace
-    # - wrapcheck
-    # - wsl
+    - whitespace
+    - wrapcheck
+    - wsl
     - zerologlint
   disable:
     - gochecknoglobals
