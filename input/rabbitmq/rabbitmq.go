@@ -55,8 +55,10 @@ func Read(ctx context.Context, urlString, engineConfigJSON, logLevel string, jso
 
 // ----------------------------------------------------------------------------
 
-var logger logging.Logging
-var jsonOutput bool
+var (
+	logger     logging.Logging
+	jsonOutput bool
+)
 
 // ----------------------------------------------------------------------------
 // Logging --------------------------------------------------------------------
