@@ -10,6 +10,7 @@ import (
 
 	"github.com/senzing-garage/go-cmdhelping/cmdhelper"
 	"github.com/senzing-garage/go-cmdhelping/option"
+	"github.com/senzing-garage/go-helpers/wraperror"
 	"github.com/senzing-garage/load/load"
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
@@ -77,25 +78,24 @@ func Execute() {
 	}
 }
 
-// Used in construction of cobra.Command
+// Used in construction of cobra.Command.
 func PreRun(cobraCommand *cobra.Command, args []string) {
 	cmdhelper.PreRun(cobraCommand, args, Use, ContextVariables)
 }
 
-// Used in construction of cobra.Command
+// Used in construction of cobra.Command.
 func RunE(_ *cobra.Command, _ []string) error {
-	jsonOutput := viper.GetBool(option.JSONOutput.Arg)
-	if !jsonOutput {
-		fmt.Println("Run with the following parameters:")
-		for _, key := range viper.AllKeys() {
-			fmt.Println("  - ", key, " = ", viper.Get(key))
-		}
-	}
-
+	// jsonOutput := viper.GetBool(option.JSONOutput.Arg)
+	// if !jsonOutput {
+	// 	fmt.Println("Run with the following parameters:")
+	// 	for _, key := range viper.AllKeys() {
+	// 		fmt.Println("  - ", key, " = ", viper.Get(key))
+	// 	}
+	// }
 	if viper.GetInt(option.DelayInSeconds.Arg) > 0 {
-		if !jsonOutput {
-			fmt.Println(time.Now(), "Sleep for", viper.GetInt(option.DelayInSeconds.Arg), "seconds to let queues and databases settle down and come up.")
-		}
+		// if !jsonOutput {
+		// 	fmt.Println(time.Now(), "Sleep for", viper.GetInt(option.DelayInSeconds.Arg), "seconds to let queues and databases settle down and come up.")
+		// }
 		time.Sleep(time.Duration(viper.GetInt(option.DelayInSeconds.Arg)) * time.Second)
 	}
 
@@ -112,10 +112,13 @@ func RunE(_ *cobra.Command, _ []string) error {
 		// RecordMin:                 viper.GetInt(option.RecordMin),
 		RecordMonitor: viper.GetInt(option.RecordMonitor.Arg),
 	}
-	return loader.Load(ctx)
+
+	err := loader.Load(ctx)
+
+	return wraperror.Errorf(err, "cmd.RunE error: %w", err)
 }
 
-// Used in construction of cobra.Command
+// Used in construction of cobra.Command.
 func Version() string {
 	return cmdhelper.Version(githubVersion, githubIteration)
 }

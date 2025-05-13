@@ -8,6 +8,7 @@ import (
 	"sync"
 	"time"
 
+	"github.com/senzing-garage/go-helpers/wraperror"
 	"github.com/senzing-garage/go-logging/logging"
 	"github.com/senzing-garage/load/input"
 )
@@ -28,7 +29,7 @@ type BasicLoad struct {
 	// RecordMax                 int
 	// RecordMin                 int
 	RecordMonitor             int
-	VisibilityPeriodInSeconds int
+	VisibilityPeriodInSeconds int32
 }
 
 // ----------------------------------------------------------------------------
@@ -37,13 +38,15 @@ type BasicLoad struct {
 var _ Load = (*BasicLoad)(nil)
 
 // ----------------------------------------------------------------------------
+// Interface methods
+// ----------------------------------------------------------------------------
 
 func (load *BasicLoad) Load(ctx context.Context) error {
-
 	load.logBuildInfo()
 	load.logStats()
 
 	ticker := time.NewTicker(time.Duration(load.MonitoringPeriodInSeconds) * time.Second)
+
 	go func() {
 		for {
 			select {
@@ -55,35 +58,18 @@ func (load *BasicLoad) Load(ctx context.Context) error {
 		}
 	}()
 
-	return input.Read(ctx, load.InputURL, load.EngineConfigJSON, load.EngineLogLevel, load.NumberOfWorkers, load.VisibilityPeriodInSeconds, load.LogLevel, load.JSONOutput)
-}
+	err := input.Read(
+		ctx,
+		load.InputURL,
+		load.EngineConfigJSON,
+		load.EngineLogLevel,
+		load.NumberOfWorkers,
+		load.VisibilityPeriodInSeconds,
+		load.LogLevel,
+		load.JSONOutput,
+	)
 
-// ----------------------------------------------------------------------------
-// Logging --------------------------------------------------------------------
-// ----------------------------------------------------------------------------
-
-// Get the Logger singleton.
-func (load *BasicLoad) getLogger() logging.Logging {
-	var err error
-	if load.logger == nil {
-		options := []interface{}{
-			&logging.OptionCallerSkip{Value: 4},
-		}
-		load.logger, err = logging.NewSenzingLogger(ComponentID, IDMessages, options...)
-		if err != nil {
-			panic(err)
-		}
-	}
-	return load.logger
-}
-
-// Log message.
-func (load *BasicLoad) log(messageNumber int, details ...interface{}) {
-	if load.JSONOutput {
-		load.getLogger().Log(messageNumber, details...)
-	} else {
-		fmt.Println(fmt.Sprintf(IDMessages[messageNumber], details...))
-	}
+	return wraperror.Errorf(err, "load.Load error: %w", err)
 }
 
 /*
@@ -95,18 +81,55 @@ Input
 */
 func (load *BasicLoad) SetLogLevel(ctx context.Context, logLevelName string) error {
 	_ = ctx
+
 	var err error
 
 	// Verify value of logLevelName.
 
 	if !logging.IsValidLogLevelName(logLevelName) {
-		return fmt.Errorf("invalid error level: %s", logLevelName)
+		return wraperror.Errorf(errForPackage, "invalid error level: %s", logLevelName)
 	}
 
 	// Set ValidateImpl log level.
 
 	err = load.getLogger().SetLogLevel(logLevelName)
-	return err
+
+	return wraperror.Errorf(err, "load.SetLogLevel error: %w", err)
+}
+
+// ----------------------------------------------------------------------------
+// Private methods
+// ----------------------------------------------------------------------------
+
+// ----------------------------------------------------------------------------
+// Logging --------------------------------------------------------------------
+// ----------------------------------------------------------------------------
+
+// Get the Logger singleton.
+func (load *BasicLoad) getLogger() logging.Logging {
+	var err error
+
+	if load.logger == nil {
+		options := []interface{}{
+			&logging.OptionCallerSkip{Value: OptionCallerSkip},
+		}
+
+		load.logger, err = logging.NewSenzingLogger(ComponentID, IDMessages, options...)
+		if err != nil {
+			panic(err)
+		}
+	}
+
+	return load.logger
+}
+
+// Log message.
+func (load *BasicLoad) log(messageNumber int, details ...interface{}) {
+	if load.JSONOutput {
+		load.getLogger().Log(messageNumber, details...)
+	} else {
+		fmt.Println(fmt.Sprintf(IDMessages[messageNumber], details...)) //nolint
+	}
 }
 
 // ----------------------------------------------------------------------------
@@ -127,13 +150,33 @@ var lock sync.Mutex
 func (load *BasicLoad) logStats() {
 	lock.Lock()
 	defer lock.Unlock()
+
 	cpus := runtime.NumCPU()
 	goRoutines := runtime.NumGoroutine()
 	cgoCalls := runtime.NumCgoCall()
-	var memStats runtime.MemStats
-	runtime.ReadMemStats(&memStats)
-	var gcStats debug.GCStats
-	debug.ReadGCStats(&gcStats)
-	load.log(2003, cpus, goRoutines, cgoCalls, memStats.NumGC, gcStats.PauseTotal, gcStats.LastGC, memStats.TotalAlloc, memStats.HeapAlloc, memStats.NextGC, memStats.GCSys, memStats.HeapSys, memStats.StackSys, memStats.Sys, memStats.GCCPUFraction)
 
+	var memStats runtime.MemStats
+
+	runtime.ReadMemStats(&memStats)
+
+	var gcStats debug.GCStats
+
+	debug.ReadGCStats(&gcStats)
+	load.log(
+		2003,
+		cpus,
+		goRoutines,
+		cgoCalls,
+		memStats.NumGC,
+		gcStats.PauseTotal,
+		gcStats.LastGC,
+		memStats.TotalAlloc,
+		memStats.HeapAlloc,
+		memStats.NextGC,
+		memStats.GCSys,
+		memStats.HeapSys,
+		memStats.StackSys,
+		memStats.Sys,
+		memStats.GCCPUFraction,
+	)
 }
