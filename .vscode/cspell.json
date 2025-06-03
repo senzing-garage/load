@@ -71,6 +71,7 @@
     "**/*.go",
     "**/*.mod",
     "**/*.sum",
+    "bearer.ignore",
     "Makefile"
   ]
 }

@@ -51,7 +51,7 @@ func Test_PreRun(test *testing.T) {
 	cmd.PreRun(cmd.RootCmd, args)
 }
 
-func Test_completionCmd(test *testing.T) {
+func Test_CompletionCmd(test *testing.T) {
 	test.Parallel()
 
 	err := cmd.CompletionCmd.Execute()
@@ -60,7 +60,7 @@ func Test_completionCmd(test *testing.T) {
 	require.NoError(test, err)
 }
 
-func Test_docsCmd(test *testing.T) {
+func Test_DocsCmd(test *testing.T) {
 	test.Parallel()
 
 	err := cmd.DocsCmd.Execute()

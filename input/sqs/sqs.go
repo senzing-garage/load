@@ -131,5 +131,5 @@ func setLogLevel(ctx context.Context, logLevelName string) error {
 
 	err = getLogger().SetLogLevel(logLevelName)
 
-	return wraperror.Errorf(err, "sqs.setLogLevel error %w", err)
+	return wraperror.Errorf(err, wraperror.NoMessage)
 }

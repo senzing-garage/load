@@ -69,7 +69,7 @@ func (load *BasicLoad) Load(ctx context.Context) error {
 		load.JSONOutput,
 	)
 
-	return wraperror.Errorf(err, "load.Load error: %w", err)
+	return wraperror.Errorf(err, wraperror.NoMessage)
 }
 
 /*
@@ -94,7 +94,7 @@ func (load *BasicLoad) SetLogLevel(ctx context.Context, logLevelName string) err
 
 	err = load.getLogger().SetLogLevel(logLevelName)
 
-	return wraperror.Errorf(err, "load.SetLogLevel error: %w", err)
+	return wraperror.Errorf(err, wraperror.NoMessage)
 }
 
 // ----------------------------------------------------------------------------
