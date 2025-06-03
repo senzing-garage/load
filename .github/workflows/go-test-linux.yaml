@@ -2,6 +2,8 @@ name: Go test linux
 
 on:
   push:
+  pull_request:
+    branches: [main]
   schedule:
     - cron: "15 7 * * *"
   workflow_dispatch:
