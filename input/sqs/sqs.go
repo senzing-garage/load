@@ -43,7 +43,7 @@ func Read(
 	}
 
 	defer func() {
-		err := szAbstractFactory.Destroy(ctx)
+		err := szAbstractFactory.Close(ctx)
 		if err != nil {
 			panic(err)
 		}
