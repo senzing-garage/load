@@ -33,7 +33,7 @@ func Read(ctx context.Context, urlString, engineConfigJSON, logLevel string, jso
 	}
 
 	defer func() {
-		err := szAbstractFactory.Destroy(ctx)
+		err := szAbstractFactory.Close(ctx)
 		if err != nil {
 			panic(err)
 		}
@@ -45,7 +45,6 @@ func Read(ctx context.Context, urlString, engineConfigJSON, logLevel string, jso
 	}
 
 	startErr := rabbitmq.StartManagedConsumer(ctx, urlString, 0, &szEngine, false, logLevel, jsonOutput)
-
 	if startErr != nil {
 		log(5000, startErr.Error())
 	}
