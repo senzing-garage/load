@@ -9,6 +9,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 ## Prerequisites
 
 Senzing C library must be installed at:
+
 - `/opt/senzing/er/lib` - shared objects
 - `/opt/senzing/er/sdk/c` - SDK header files
 - `/etc/opt/senzing` - configuration
@@ -48,7 +49,7 @@ make fix
 
 ## Architecture
 
-```
+```console
 cmd/           CLI layer (cobra/viper)
   root.go      Main command definition with flags and execution
   context_*.go Platform-specific context variables
@@ -73,18 +74,21 @@ input/         Input source adapters
 ### Input URL Routing
 
 The `input/selector.go` routes based on URL scheme:
+
 - `amqp://` → RabbitMQ
 - `sqs://` or `https://` → AWS SQS
 
 ## Linting Configuration
 
 Uses golangci-lint v2 with extensive linter set. Config at `.github/linters/.golangci.yaml`. Notable exclusions:
+
 - `exhaustruct` excludes `cobra.Command` and `load.BasicLoad`
 - `ireturn` allows `logging.Logging` interface returns
 
 ## Testing
 
 Tests require the Senzing database setup:
+
 ```bash
 make setup  # Copies testdata/sqlite/G2C.db to /tmp/sqlite/
 ```
