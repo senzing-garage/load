@@ -8,36 +8,41 @@ import (
 	"github.com/stretchr/testify/require"
 )
 
+const (
+	commandName = "command-name"
+	helpFlag    = "--help"
+)
+
 // ----------------------------------------------------------------------------
 // Test public functions
 // ----------------------------------------------------------------------------
 
 func Test_Execute(_ *testing.T) { //nolint
-	os.Args = []string{"command-name", "--help"}
+	os.Args = []string{commandName, helpFlag}
 
 	cmd.Execute()
 }
 
 func Test_Execute_completion(_ *testing.T) { //nolint
-	os.Args = []string{"command-name", "completion"}
+	os.Args = []string{commandName, "completion"}
 
 	cmd.Execute()
 }
 
 func Test_Execute_docs(_ *testing.T) { //nolint
-	os.Args = []string{"command-name", "docs"}
+	os.Args = []string{commandName, "docs"}
 
 	cmd.Execute()
 }
 
 func Test_Execute_help(_ *testing.T) { //nolint
-	os.Args = []string{"command-name", "--help"}
+	os.Args = []string{commandName, helpFlag}
 
 	cmd.Execute()
 }
 
 func Test_PreRun(_ *testing.T) { //nolint
-	args := []string{"command-name", "--help"}
+	args := []string{commandName, helpFlag}
 	cmd.PreRun(cmd.RootCmd, args)
 }
 
