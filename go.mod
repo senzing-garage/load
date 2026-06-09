@@ -8,7 +8,7 @@ require (
 	github.com/senzing-garage/go-logging v1.5.4
 	github.com/senzing-garage/go-queueing v0.4.8
 	github.com/senzing-garage/go-sdk-abstract-factory v0.9.17
-	github.com/senzing-garage/sz-sdk-go v0.15.12
+	github.com/senzing-garage/sz-sdk-go v0.15.14
 	github.com/spf13/cobra v1.10.2
 	github.com/spf13/viper v1.21.0
 	github.com/stretchr/testify v1.11.1
