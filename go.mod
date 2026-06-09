@@ -1,6 +1,6 @@
 module github.com/senzing-garage/load
 
-go 1.26.0
+go 1.26.4
 
 require (
 	github.com/senzing-garage/go-cmdhelping v0.3.8
