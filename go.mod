@@ -4,7 +4,7 @@ go 1.26.4
 
 require (
 	github.com/senzing-garage/go-cmdhelping v0.3.8
-	github.com/senzing-garage/go-helpers v0.6.16
+	github.com/senzing-garage/go-helpers v0.6.17
 	github.com/senzing-garage/go-logging v1.5.4
 	github.com/senzing-garage/go-queueing v0.4.8
 	github.com/senzing-garage/go-sdk-abstract-factory v0.9.17
